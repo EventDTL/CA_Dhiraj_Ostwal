@@ -1,0 +1,48 @@
+/* Banner.css */
+.banner-container {
+ width: 100%;
+ height: 190px;
+ background-size: cover;
+ background-position: center;
+ display: flex;
+ justify-content: left;
+ align-items: left;
+}
+
+.banner-content {
+ text-align: left;
+ color: white;
+ background: linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+ padding: 25px;
+}
+
+.banner-content h4 {
+ margin: 0;
+ font-size: 1rem;
+}
+
+.banner-content h1 {
+ margin: 0;
+ font-size: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+ .banner-content h4 {
+  font-size: 0.8rem;
+ }
+
+ .banner-content h1 {
+  font-size: 1.5rem;
+ }
+}
+
+@media (max-width: 480px) {
+ .banner-content h4 {
+  font-size: 0.7rem;
+ }
+
+ .banner-content h1 {
+  font-size: 1.2rem;
+ }
+}

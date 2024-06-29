@@ -1,0 +1,51 @@
+.main-container1 {
+ padding-top: 50px;
+ display: flex;
+ background-color: #161B2B;
+}
+
+.logo-white {
+ filter: brightness(0) invert(1);
+}
+
+.content1 {
+ flex-grow: 1;
+ padding: 20px;
+ /* margin-left: 200px; */
+ /* Adjust this value based on the width of your side navbar */
+ /* margin-top: 56px; */
+ /* Adjust this if your top navbar height is different */
+}
+
+@media (max-width: 768px) {
+ .content1 {
+  margin-left: 5px;
+  /* Adjust this value to match the width of the side navbar on smaller screens */
+ }
+}
+
+.card-container {
+ display: flex;
+ flex-wrap: wrap;
+}
+
+.card {
+ flex: 1;
+ margin: 10px;
+ max-width: 250px;
+ /* Define max-width for each card */
+}
+
+@media (max-width: 768px) {
+ .card {
+  flex-basis: calc(50% - 20px);
+  /* Two cards per row on small screens */
+ }
+}
+
+@media (max-width: 576px) {
+ .card {
+  flex-basis: calc(100% - 20px);
+  /* One card per row on extra small screens */
+ }
+}

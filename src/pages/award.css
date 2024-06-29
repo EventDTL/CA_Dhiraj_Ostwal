@@ -1,0 +1,9 @@
+.awordh h2{
+    font-weight: bold;
+    font-size: 35px;
+    margin-bottom: 30px;
+    font-family: var(--mainfont);
+}
+.awordh span{
+    color:var(--fontcolor);
+}

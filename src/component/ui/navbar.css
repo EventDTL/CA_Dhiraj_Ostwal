@@ -1,0 +1,190 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+.nav2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 6rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  background-color: white;
+  position: relative;
+}
+
+.nav2-left {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.nav2-logo {
+  height: 90px;
+  width: 300px;
+}
+
+.nav2-icons {
+  display: flex;
+  margin-left: 20px;
+  justify-content: flex-end;
+}
+
+.nav2-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.nav2-cont {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1.3rem;
+  height: 2.5rem;
+}
+
+.nav2-title {
+  border: none;
+  background-color: transparent;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-right: 3px;
+}
+
+
+.dropdownService {
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 5rem;
+  width: 25vw;
+  /* Set width to full viewport width */
+  justify-content: center;
+  /* Center horizontally */
+  align-items: center;
+  /* Center vertically */
+}
+
+.dropdownInsights {
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 5rem;
+  width: 30vw;
+  /* Set width to full viewport width */
+  justify-content: center;
+  /* Center horizontally */
+  align-items: center;
+  /* Center vertically */
+}
+
+.dropdown-item {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: transparent;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.menu {
+  display: none;
+}
+
+@media only screen and (max-width: 950px) {
+  .nav2 {
+    gap: 0.5rem;
+  }
+
+  .nav2-cont {
+    gap: 0.5rem;
+  }
+
+  .nav2 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .nav2-title {
+    border: none;
+    background-color: transparent;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-right: 3px;
+  }
+}
+
+@media only screen and (max-width: 525px) {
+  .nav2-icons {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .nav2-cont {
+    display: none;
+  }
+
+  .nav2-right {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav2-left {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .nav2-logo {
+    height: 60px;
+    width: 200px;
+  }
+
+  .menu {
+    display: block;
+  }
+}
+
+/* navbar.css */
+.nav2 {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: background-color 0.3s, backdrop-filter 0.3s
+}
+
+.nav2-title:hover {
+  color: var(--maincolor);
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}

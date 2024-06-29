@@ -1,0 +1,149 @@
+.boxone{
+    margin-left: 10%;
+    width: 80%;
+    height: 25vh;
+    max-height: 25vh;
+    margin-bottom: 13px;
+    border: 1px solid  rgb(48, 46, 46);
+    display: flex;
+    grid-column: auto;
+    padding: 6px;
+    border-radius: 14px;  
+    /* max-height: max-content; */
+
+    
+}
+.btn{
+    display: none;
+}
+.image-banner{
+    width: 55vh;
+    height: 100%;
+    padding: 2px;
+
+    /* border: 1px solid tan; */
+
+
+}
+.imageone{
+    width: 25vh;
+    height: auto;
+    max-height: 100%;
+    object-fit: fill;
+    border-radius: 12px;
+}
+
+.head-banner{
+    /* border: 1px solid teal; */
+    display: flex;
+    flex-direction: column;
+}
+.heading{
+    /* border: 1px solid rgb(239, 114, 37); */
+    border-bottom: 1px dashed rgb(180, 173, 173);
+    margin: 1vh;
+    font-weight: 700;
+    font-size: 19px;
+    text-align: center;
+    overflow: hidden;
+   
+    
+}
+.description{
+    padding-left: 12px;
+    padding-right: 12px;
+   height: auto;
+  font-size: 14px;
+    text-align: center;
+   
+   line-height: 1.5;
+}
+
+@media screen and (max-width: 375px){
+.imageone{
+    display: none;
+
+}
+.image-banner{
+    display: none;
+}
+.boxone{
+    border-radius: 0%;
+    width: 95%;
+    margin-left: 12px;
+    border: 1px solid rgb(68, 65, 65);
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+
+    height: auto;
+    max-height: 89vh;
+}
+
+.heading{
+  
+    padding-top: 12px;
+    max-height: 12vh;
+    text-align: center;
+   overflow: hidden;
+   flex: 1;
+font-size: 14px;    
+word-spacing: normal;
+    padding: 1px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.description{
+    
+    line-height: 1.4;
+    font-size: 15px;
+    text-align: justify;
+    word-spacing: 0px;
+    align-self: self-start;
+    
+
+}
+
+}
+
+@media screen and (max-width: 425px){
+    .imageone{
+        display: none;
+    
+    }
+    .image-banner{
+        display: none;
+    }
+    .boxone{
+        border-radius: 0%;
+        width: 95%;
+        margin-left: 12px;
+        border: 1px solid rgb(68, 65, 65);
+        border-radius: 12px;
+        box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    
+        height: auto;
+        max-height: 89vh;
+    }
+    
+    .heading{
+      
+        padding-top: 12px;
+        max-height: 12vh;
+        text-align: center;
+       overflow: hidden;
+       flex: 1;
+    font-size: 14px;    
+    word-spacing: normal;
+        padding: 1px;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+    .description{
+        
+        line-height: 1.4;
+        font-size: 15px;
+        text-align: justify;
+        word-spacing: 0px;
+        align-self: self-start;
+        
+    
+}
+}

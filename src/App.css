@@ -1,0 +1,15 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+  --mainfont: "Playfair Display", serif;
+  --maincolor: #ff0000;
+  --btncolor: #ce3008;
+  --fontcolor: #ff0000;
+  --bgcolor: #F3F3F3;
+}
+
+.content2 {
+  padding-top: 80px;
+}

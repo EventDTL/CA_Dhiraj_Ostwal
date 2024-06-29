@@ -1,0 +1,201 @@
+.employee-container {
+ text-align: center;
+ padding: 20px;
+ max-width: 1200px;
+ margin: 0 auto;
+ background-color: #1F263C;
+ /* Main background color */
+ color: #e0e0e0;
+ /* Light text color */
+ border-radius: 10px;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+ /* Darker shadow */
+}
+
+.employee-container h1 {
+ font-size: 24px;
+ margin-bottom: 10px;
+ font-weight: bold;
+ color: #fff;
+}
+
+.add-employee-button-container {
+ text-align: left;
+ margin-bottom: 20px;
+}
+
+.add-employee-button {
+ padding: 12px 24px;
+ font-size: 16px;
+ cursor: pointer;
+ background-color: #007BFF;
+ /* Primary button color */
+ color: #ffffff;
+ /* Button text color */
+ border: none;
+ border-radius: 5px;
+ transition: background-color 0.3s ease;
+}
+
+.add-employee-button:hover {
+ background-color: #0056b3;
+ /* Button hover color */
+}
+
+.employee-form {
+ width: 100%;
+ max-width: 600px;
+ /* Adjust as needed */
+ background-color: #2c3a47;
+ padding: 20px;
+ border-radius: 10px;
+ box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+}
+
+.employee-form .form-row {
+ width: 100%;
+
+ display: flex;
+ justify-content: space-between;
+ margin-bottom: 15px;
+}
+
+.employee-form .form-row .input-group {
+
+ display: flex;
+ width: 100%;
+}
+
+.employee-form .input-group input,
+select {
+ margin-left: 5px;
+ flex: 1;
+ padding: 12px;
+ font-size: 16px;
+ border: 1px solid #ccc;
+ border-radius: 5px;
+ background-color: #1f263c;
+ color: #e0e0e0;
+}
+
+.employee-form input::placeholder,
+select {
+ color: #888;
+}
+
+.image-preview {
+ margin-top: 10px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+}
+
+.image-preview img {
+ max-width: 50%;
+ height: auto;
+}
+
+.employee-form button {
+ margin-left: 10px;
+ padding: 12px 24px;
+ font-size: 16px;
+ cursor: pointer;
+ background-color: #007bff;
+ color: #ffffff;
+ border: none;
+ border-radius: 5px;
+ margin-top: 10px;
+ transition: background-color 0.3s ease;
+}
+
+.employee-form button:hover {
+ background-color: #0056b3;
+}
+
+.employee-table-container {
+ overflow-x: auto;
+ max-height: 400px;
+ width: 100%;
+ margin: 20px 0;
+ border: 1px solid #333;
+ /* Darker border */
+ border-radius: 5px;
+ background-color: #161B2B;
+ /* Secondary background color */
+}
+
+.employee-table {
+ width: 100%;
+ border-collapse: collapse;
+ background-color: #2C3A47;
+ /* Table background color */
+}
+
+.employee-table th,
+.employee-table td {
+ border: 1px solid #444;
+ /* Darker border */
+ padding: 12px;
+ text-align: center;
+ color: #e0e0e0;
+ /* Light text color */
+}
+
+.employee-table th {
+ background-color: #1F263C;
+ /* Header background color */
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+ .add-employee-button {
+  font-size: 14px;
+  padding: 10px 20px;
+ }
+
+ .employee-container {
+  padding: 10px;
+ }
+
+ .employee-form input {
+  padding: 10px;
+ }
+
+ .employee-table-container {
+  max-height: 300px;
+ }
+}
+
+@media (max-width: 500px) {
+ .add-employee-button {
+  font-size: 12px;
+  padding: 8px 16px;
+ }
+
+ .employee-container {
+  max-width: 100%;
+  padding: 10px;
+ }
+
+ .employee-form {
+  padding: 15px;
+ }
+
+ .employee-form input {
+  font-size: 14px;
+  padding: 8px;
+ }
+
+ .employee-table-container {
+  max-height: 250px;
+  max-width: 100%;
+ }
+
+ .employee-table th,
+ .employee-table td {
+  padding: 10px;
+ }
+}

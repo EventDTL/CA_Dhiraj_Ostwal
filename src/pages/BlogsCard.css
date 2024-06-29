@@ -1,0 +1,132 @@
+.boxtwo {
+
+    width: 91%;
+    height: 360px;
+    border: 1px solid rgb(214, 202, 202);
+    display: flex;
+
+    flex-direction: column;
+    /* border-top-left-radius: 22px; */
+    margin-bottom: 23px;
+    margin-right: 12px;
+    padding: 2px;
+    border-top-right-radius: 22px;
+    border-bottom-left-radius: 22px;
+    box-shadow: 19px 11px 31px 2px rgba(0, 0, 0, 0.1);
+    opacity: 2;
+    transition: opacity 1s ease 0s;
+    transition: border-color 0.3s ease;
+    /* Smooth transition effect */
+
+     transition: 1s;
+    font-size: 20px;
+    line-height: 1;
+    transform: translateY(18px);
+
+}
+
+.boxtwo:hover {
+    transform: none;
+    border-bottom: 2px solid #f14505;
+}
+
+.boxtwo:hover {
+    opacity: 0.8;
+}
+
+.imageboxtwo {
+    border-bottom: 1px double rgb(214, 202, 202);
+    max-width: 100%;
+    height: 50%;
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+}
+
+.imagebox2 {
+    border-radius: 32px;
+    padding: 12px;
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+}
+
+.headingtwo {
+
+    padding: 12px 4px 44px 5px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+    overflow: hidden;
+    line-height: 1.3;
+    word-spacing: 1px;
+    height: auto;
+    max-height: 80px;
+    /* border: 1px solid teal; */
+    font-size: 15px;
+    overflow: hidden;
+    border-bottom: 1px solid rgb(217, 146, 146);
+
+}
+
+.headingtwo h2 {
+    line-height: 1.2;
+    padding-bottom: 12vh;
+
+}
+
+.descriptionwe {
+    padding: 7px 7px auto 7px;
+    height: auto;
+    overflow: hidden;
+    max-height: 20vh;
+    text-align: center;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.2;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.descriptionwe p {
+    height: auto;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding-bottom: 124vh;
+    padding-top: 6px;
+    overflow: hidden;
+}
+
+.readmore {
+    padding-top: 8px;
+    margin: auto;
+    /* border: 1px solid green; */
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+    padding-top: 14px;
+    padding-bottom: 11px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+@media screen and (max-width: 375px) {
+    .boxtwo {
+        /* margin-left: 1%; */
+        width: 97%;
+    }
+
+    .descriptionwe {
+        overflow: hidden;
+        height: auto;
+        max-height: 239vh;
+    }
+
+    .descriptionwe p {
+        overflow: hidden;
+        height: 12px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .boxtwo {
+        margin-bottom: 32px;
+    }
+}

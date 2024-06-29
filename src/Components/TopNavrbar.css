@@ -1,0 +1,105 @@
+/* Base styles */
+.navbar {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 10px 20px;
+ background-color: #1F263C;
+ color: #fff;
+ position: fixed;
+ top: 0;
+ width: 100%;
+ z-index: 1000;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+ /* Adds a downward black shadow */
+}
+
+.left {
+ display: flex;
+ align-items: center;
+}
+
+.right {
+ display: flex;
+ align-items: center;
+}
+
+.user-info {
+ display: ruby;
+ align-items: center;
+ margin-right: 20px;
+}
+
+
+.username {
+ margin-right: 10px;
+ font-weight: bold;
+}
+
+.useremail {
+ margin-right: 10px;
+}
+
+.profile-photo {
+ width: 40px;
+ height: 40px;
+ border-radius: 50%;
+ margin-right: 10px;
+}
+
+.btn-pink {
+ background-color: rgb(244, 83, 83);
+ border-color: rgb(246, 58, 58);
+ color: white;
+ margin-right: 20px;
+ font-size: 14px;
+ /* Adjust button text size */
+ padding: 8px 12px;
+ /* Adjust button padding */
+}
+
+.btn-pink:hover {
+ background-color: rgb(218, 30, 30);
+ border-color: rgb(246, 58, 58);
+}
+
+.toggle-right {
+ display: none;
+ cursor: pointer;
+}
+
+.toggle-right.show {
+ display: flex;
+ align-items: center;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+ .left {
+  flex: 1;
+  /* Allow left section to take full width on smaller screens */
+ }
+
+ .user-info {
+  display: none;
+  align-items: center;
+  margin-right: 20px;
+ }
+
+ .right {
+  justify-content: flex-end;
+  /* Align items to the right on smaller screens */
+ }
+
+ .btn-pink {
+  font-size: 12px;
+  /* Decrease button text size */
+  padding: 6px 10px;
+  /* Decrease button padding */
+ }
+
+ .toggle-right {
+  display: flex;
+  /* Display toggle button on smaller screens */
+ }
+}

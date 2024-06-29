@@ -1,0 +1,117 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+/* ImgSlider.css */
+.img-slider-container {
+  width: 100%;
+  height: auto;
+  margin: auto;
+  z-index: 1;
+  background-image: linear-gradient(white, white, white, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.img-slider-container:hover .navBtn {
+  opacity: 1;
+}
+
+.img-slider-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.sbtn {
+  border-radius: 60px;
+  background-color: var(--maincolor);
+}
+
+.sbtn:hover {
+  background-color: var(--bgcolor);
+  color: black;
+}
+
+/* ImgSlider.css */
+.text-overlay {
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  transform: none;
+  color: white;
+  font-weight: bold;
+  text-align: left;
+  z-index: 10;
+}
+
+.text-overlay h1 {
+  font-size: 3.5rem;
+}
+
+.text-overlay p {
+  font-size: 1.5rem;
+  font-weight: lighter;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .text-overlay h1 {
+    font-size: 2rem;
+  }
+
+  .text-overlay p {
+    font-size: 1rem;
+  }
+
+  .sbtn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
+
+/* Override pagination bullet styles */
+.rssi-bullets {
+  bottom: 10px;
+}
+
+.rssi-bullets .rssi-bullet {
+  background-color: #cccccc;
+}
+
+.rssi-bullets .rssi-bullet.active {
+  background-color: #ff5733;
+}
+
+/* Override navigation button styles */
+.rssi-nav {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+}
+
+.rssi-nav:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.rssi-nav::before {
+  color: #ffffff;
+  font-size: 24px;
+}
+
+.text-overlay {
+  opacity: 0.9;
+}

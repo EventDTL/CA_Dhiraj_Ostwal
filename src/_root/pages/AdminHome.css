@@ -1,0 +1,69 @@
+.app {
+ display: flex;
+ /* Use flexbox layout */
+ flex-direction: column;
+ /* Stack children vertically */
+ padding: 20px;
+ max-width: 1200px;
+ height: 100%;
+ margin: 0 auto;
+ background-color: #1F263C;
+ /* Main background color */
+ color: #fff;
+ /* Light text color */
+ border-radius: 10px;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.adminnav {
+ display: flex;
+ justify-content: center;
+}
+
+.adminnav button {
+ background-color: #070b18;
+ color: #fff;
+ border-radius: 8px;
+ padding: 10px 20px;
+ margin: 5px;
+ cursor: pointer;
+ border: none;
+}
+
+.adminnav button:hover {
+ background-color: #0056b3;
+}
+
+.adminnav button.active {
+ background-color: #173656;
+ /* Green color for active button */
+}
+
+.admincontent {
+ display: block;
+ /* Use flexbox */
+ flex: 1;
+ /* Allow admincontent to grow to fill remaining space */
+ justify-content: center;
+ align-items: center;
+ margin-top: 10px;
+ min-width: none;
+}
+
+.banner,
+.profile-photo,
+.youtube,
+.footer {
+ width: 100%;
+}
+
+/* Other existing styles for .profile-photo-container, modal, etc. remain unchanged */
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+ .profile-photo-container {
+  flex-direction: column;
+  align-items: center;
+ }
+
+}

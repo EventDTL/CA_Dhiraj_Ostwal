@@ -1,0 +1,110 @@
+.services-container {
+ background-color: #1F263C;
+ color: #fff;
+ padding: 20px;
+}
+
+.services-container h1 {
+ font-size: 24px;
+ margin-bottom: 10px;
+ font-weight: bold;
+ color: #fff;
+}
+
+.services-item {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 35px;
+ margin-top: 10px;
+ background-color: #2c324a;
+ color: #fff;
+ margin-bottom: 10px;
+ border-radius: 5px;
+ cursor: pointer;
+ transition: background-color 0.3s;
+}
+
+.services-item:hover {
+ background-color: #444b5c;
+}
+
+.service-info {
+ flex: 1;
+}
+
+.edit-icon {
+ display: flex;
+ align-items: center;
+ margin-left: 10px;
+}
+
+.edit-icon:hover {
+ cursor: pointer;
+}
+
+.edit-icon:hover svg,
+.edit-icon:hover .edit-text {
+ color: #4caf50;
+ /* Change color on hover */
+}
+
+.add-service-button {
+ background-color: #444b5c;
+ color: #fff;
+ padding: 10px 20px;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+}
+
+.form-overlay {
+ position: fixed;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 0;
+ background-color: rgba(0, 0, 0, 0.7);
+ display: flex;
+ justify-content: center;
+ align-items: center;
+}
+
+.service-form {
+ background-color: #2c324a;
+ padding: 20px;
+ border-radius: 5px;
+ display: flex;
+ flex-direction: column;
+}
+
+.service-form input {
+ margin-bottom: 10px;
+ padding: 10px;
+ border: 1px solid #444b5c;
+ border-radius: 5px;
+ color: #fff;
+ background-color: #1F263C;
+}
+
+.button-row {
+ display: flex;
+ justify-content: space-between;
+}
+
+.button-row button {
+ padding: 10px 20px;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+}
+
+.button-row button[type="submit"] {
+ background-color: #4CAF50;
+ color: #fff;
+}
+
+.button-row button[type="button"] {
+ background-color: #f44336;
+ color: #fff;
+}

@@ -1,0 +1,256 @@
+.profile-photo-container {
+ display: flex;
+ align-items: flex-center;
+ min-width: 800px;
+ max-width: 1200px;
+ margin: 0 auto;
+ gap: 40px;
+ background-color: #1F263C;
+ color: #e0e0e0;
+}
+
+
+.header h1 {
+ font-size: 24px;
+ margin-bottom: 10px;
+ font-weight: bold;
+ color: #007BFF;
+}
+
+.profile-section {
+ padding: 40px;
+ text-align: -webkit-center;
+ background-color: #171d2f;
+ border-radius: 7px;
+ align-self: flex-start;
+}
+
+.fas,
+.fab {
+ margin-right: 10px;
+}
+
+.profile-photo-admin {
+ width: 150px;
+ height: 150px;
+ border-radius: 50%;
+ margin-bottom: 20px;
+ border: 3px solid #fff;
+}
+
+.buttons {
+ display: flex;
+ justify-content: center;
+ gap: 10px;
+ margin-top: 20px;
+}
+
+
+.btn {
+ padding: 10px 20px;
+ border: none;
+ border-radius: 5px;
+ color: white;
+ cursor: pointer;
+ font-size: 16px;
+ transition: background-color 0.3s ease;
+}
+
+.edit-btn {
+ background-color: #3b82f6;
+ /* Blue color */
+}
+
+.edit-btn:hover {
+ background-color: #2563eb;
+ /* Darker blue */
+}
+
+.delete-btn {
+ background-color: #ef4444;
+ /* Red color */
+}
+
+.delete-btn:hover {
+ background-color: #dc2626;
+ /* Darker red */
+}
+
+.save-btn {
+ background-color: #10b981;
+ /* Green color */
+}
+
+.save-btn:hover {
+ background-color: #059669;
+ /* Darker green */
+}
+
+.disabled {
+ background-color: #9ca3af;
+ /* Gray color for disabled state */
+ cursor: not-allowed;
+}
+
+.info-section {
+ flex: 2;
+ padding: 40px;
+ max-width: 1000px;
+ /* Adjust as needed */
+ background-color: #171d2f;
+ border-radius: 8px;
+ overflow-y: auto;
+ max-height: 455px;
+ scrollbar-width: thin;
+ scrollbar-color: #007BFF #1F263C;
+}
+
+/* Custom scrollbar style for WebKit */
+.info-section::-webkit-scrollbar {
+ width: 8px;
+}
+
+.info-section::-webkit-scrollbar-track {
+ background-color: #1F263C;
+}
+
+.info-section::-webkit-scrollbar-thumb {
+ background-color: #007BFF;
+ border-radius: 6px;
+}
+
+.info-section::-webkit-scrollbar-thumb:hover {
+ background-color: #0056b3;
+}
+
+/* For Firefox */
+.info-section {
+ scrollbar-width: auto;
+}
+
+.form-group {
+ margin-bottom: 15px;
+}
+
+.form-group label {
+ display: flex;
+ align-items: center;
+ margin-bottom: 5px;
+ font-weight: bold;
+ color: #fff;
+}
+
+.form-group input {
+ width: calc(100% - 20px);
+ padding: 8px;
+ border: 1px solid #ccc;
+ border-radius: 5px;
+ font-size: 14px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"] {
+ background-color: #070b18;
+ color: #fff;
+}
+
+.modal {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ position: fixed;
+ z-index: 1;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ overflow: auto;
+ background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+ background-color: #1F263C;
+ margin: auto;
+ padding: 20px;
+ border: 1px solid #888;
+ width: 80%;
+ max-width: 500px;
+ text-align: center;
+ border-radius: 10px;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+ animation: modalopen 0.4s;
+}
+
+@keyframes modalopen {
+ from {
+  opacity: 0;
+ }
+
+ to {
+  opacity: 1;
+ }
+}
+
+.modal-content h2 {
+ margin-bottom: 20px;
+}
+
+.modal-content input {
+ display: block;
+ margin: 0 auto 20px;
+ padding: 10px;
+ border: 1px solid #007BFF;
+ border-radius: 5px;
+ width: 80%;
+}
+
+.modal-content button {
+ background-color: #28a745;
+ color: #fff;
+ border: none;
+ padding: 10px 20px;
+ border-radius: 8px;
+ cursor: pointer;
+ transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+ background-color: #218838;
+}
+
+.close {
+ color: #aaa;
+ float: right;
+ font-size: 28px;
+ font-weight: bold;
+ cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+ color: #fff;
+ text-decoration: none;
+ cursor: pointer;
+}
+
+/* Font Awesome Icons */
+.fa {
+ margin-right: 5px;
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+ .profile-photo-container {
+  flex-direction: column;
+  align-items: center;
+  min-width: unset;
+  /* Remove minimum width */
+ }
+
+ .info-section {
+  padding-left: 20px;
+  margin-top: 20px;
+  max-height: none;
+  overflow-y: visible;
+ }
+}

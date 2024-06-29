@@ -1,0 +1,230 @@
+.dashboard-container {
+ padding: 20px;
+ max-width: 1200px;
+ margin: 0 auto;
+ background-color: #1F263C;
+ /* Main background color */
+ color: #fff;
+ /* Light text color */
+ border-radius: 10px;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admin-profile {
+ display: flex;
+ align-items: center;
+ margin-bottom: 20px;
+}
+
+.profile-icon {
+ font-size: 50px;
+ margin-right: 20px;
+}
+
+.profile-details h2 {
+ margin: 0;
+ font-size: 24px;
+}
+
+.profile-details p {
+ margin: 0;
+ color: #888;
+ /* Subdued text color */
+}
+
+.dashboard-cards {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 20px;
+}
+
+.dashboard-card {
+ flex: 1;
+ min-width: 220px;
+ padding: 20px;
+ border-radius: 10px;
+ text-align: center;
+ color: #fff;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ cursor: pointer;
+}
+
+.dashboard-card:hover {
+ transform: translateY(-5px);
+ box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.employee-services {
+ background-color: #4caf50;
+ /* Green */
+}
+
+.new-inquiries {
+ background-color: #ff9800;
+ /* Orange */
+}
+
+.new-resumes {
+ background-color: #2196f3;
+ /* Blue */
+}
+
+.ca-firm {
+ background-color: #9c27b0;
+ /* Purple */
+}
+
+.new-startup {
+ background-color: #ff5722;
+ /* Deep Orange */
+}
+
+.new-meetings {
+ background-color: #673ab7;
+ /* Pink */
+}
+
+.new-updates {
+ /* Deep Purple */
+ background-color: #e91e63;
+}
+
+.highlight {
+ animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+ 0% {
+  transform: scale(1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ }
+
+ 50% {
+  transform: scale(1.04);
+  box-shadow: 0 4px 16px rgba(233, 30, 99, 0.6);
+  /* Pink shadow */
+ }
+
+ 100% {
+  transform: scale(1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ }
+}
+
+.card-icon {
+ font-size: 50px;
+ margin-bottom: 10px;
+}
+
+.card-content h3 {
+ font-size: 18px;
+ margin-bottom: 10px;
+}
+
+.card-count {
+ font-size: 24px;
+ font-weight: bold;
+}
+
+.recent-activities {
+ background-color: #2E364F;
+ /* Darker background */
+ border-radius: 8px;
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+ padding: 20px;
+ width: 100%;
+ margin-top: 20px;
+}
+
+.activities-heading {
+ font-size: 1.5rem;
+ margin-bottom: 10px;
+ text-align: center;
+}
+
+.activities-list {
+ list-style-type: none;
+ padding: 0;
+}
+
+.activity {
+ display: flex;
+ align-items: center;
+ padding: 10px;
+ border-bottom: 1px solid #3C445D;
+ /* Slightly lighter border */
+}
+
+.activity-icon {
+ font-size: 1.5rem;
+ margin-right: 10px;
+ color: #4FC3F7;
+ /* Lighter icon color */
+}
+
+.activity-details {
+ flex-grow: 1;
+}
+
+.activity-details p {
+ margin-bottom: 5px;
+}
+
+.activity-time {
+ font-size: 0.8rem;
+ color: #999;
+}
+
+.charts {
+ margin-top: 30px;
+}
+
+.charts h3 {
+ font-size: 20px;
+ margin-bottom: 10px;
+}
+
+.chart {
+ background-color: #161B2B;
+ padding: 20px;
+ border-radius: 10px;
+ margin-bottom: 20px;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-header {
+ display: flex;
+ align-items: center;
+ margin-bottom: 10px;
+}
+
+.chart-icon {
+ font-size: 24px;
+ margin-right: 10px;
+ color: #007BFF;
+ /* Icon color */
+}
+
+.chart-placeholder {
+ height: 200px;
+ /* Adjust height as needed */
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ border: 1px solid #444;
+ /* Darker border */
+ border-radius: 5px;
+ color: #888;
+ /* Subdued text color */
+}
+
+@media (max-width: 768px) {
+ .dashboard-cards {
+  flex-direction: column;
+ }
+
+ .dashboard-card {
+  margin-bottom: 20px;
+ }
+}
