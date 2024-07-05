@@ -41,7 +41,7 @@ function ServicePage() {
         <h2>{subServicesData.ServiceHeadline}</h2>
         <div className='button-container'>
           <a
-            href='https://wa.me/9518994028?text=Hi%20there,%20I%27m%20interested%20in%20your%20services.'
+            href='https://wa.me/7020045454?text=Hi%20there,%20I%27m%20interested%20in%20your%20services.'
             className='button'
             target='_blank'
             rel='noopener noreferrer'

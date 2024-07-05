@@ -46,7 +46,6 @@
   height: auto;
   margin-bottom: 10px;
   border-radius: 5%;
-
 }
 
 .slick-center .team-member p {
@@ -63,6 +62,17 @@
   }
 
   .member-info img {
-    max-width: 80%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .slick-center .team-member p {
+    font-size: 1em;
+    /* Reduce text size */
+  }
+
+  .event-team-slider h5 {
+    font-size: 20px;
+    /* Reduce heading size */
   }
 }
