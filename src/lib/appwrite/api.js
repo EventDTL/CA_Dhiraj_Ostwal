@@ -162,24 +162,35 @@ export async function uploadFile(file) {
 }
 
 // // ============================== GET FILE URL
-export function getFilePreview(fileId) {
+// ============================== GET FILE URL
+export function getFilePreview(fileId, ratioType = 'wide') {
   try {
+    let width, height;
+
+    if (ratioType === 'wide') {
+      width = 4000;
+      height = 4000;
+    } else if (ratioType === 'portrait') {
+      width = 1400;
+      height = 2500;
+    } else {
+      width = 2048;
+      height = 2000;
+    }
+
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storageId,
-      fileId,
-      2000,
-      2000,
-      'top',
-      100
-    )
+      fileId
+    );
 
-    if (!fileUrl) throw Error
+    if (!fileUrl) throw new Error('Failed to get file preview');
 
-    return fileUrl
+    return fileUrl;
   } catch (error) {
-    console.log(error)
+    console.error(error);
   }
 }
+
 
 // // ============================== DELETE FILE
 export async function deleteFile(fileId) {
@@ -302,7 +313,25 @@ export async function getAllMeetings() {
   }
 }
 
-// Save Employee
+//============================ Employee API ===========================
+
+// All Employee Data
+export async function getAllEmployee() {
+  try {
+    const allEmployee = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.employeeCollectionId
+    )
+
+    console.log(allEmployee)
+    if (!allEmployee) throw Error
+    return allEmployee.documents
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// Save Employee 
 export async function saveEmployee(employee) {
   try {
     console.log(employee)
@@ -349,23 +378,83 @@ export async function saveEmployee(employee) {
   }
 }
 
-// All Employee DATA
-export async function getAllEmployee() {
+// Update Employee
+export async function updateEmployee(employee) {
+  console.log(employee);
   try {
-    const allEmployee = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.employeeCollectionId
-    )
+    let fileUrl = employee.deleteId.imageUrl;
+    let uploadedFileId = employee.deleteId.imageId;
 
-    console.log(allEmployee)
-    if (!allEmployee) throw Error
-    return allEmployee
+    if (employee.image) { 
+      const uploadedFile = await uploadFile(employee.image);
+      if (!uploadedFile) throw new Error('File upload failed');
+
+      fileUrl = getFilePreview(uploadedFile.$id,"wide");
+      if (!fileUrl) {
+        await deleteFile(uploadedFile.$id);
+        throw new Error('Failed to get file preview');
+      }
+      uploadedFileId = uploadedFile.$id;
+    }
+
+    const saveUpdatedEmployee = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.employeeCollectionId,
+      employee.deleteId.$id,
+      {
+        FirstName: employee.firstname,
+        LastName: employee.lastname,
+        Email: employee.email,
+        Phone: employee.phone,
+        Address: employee.address,
+        Gender: employee.gender,
+        BirthDate: employee.birthDate,
+        Position: employee.position,
+        SubmitDate: new Date().toISOString(),
+        admin: '6673dfce000cb39229e0',
+        ImageId: uploadedFileId,
+        ImageUrl: fileUrl,
+      }
+    );
+
+    if (!saveUpdatedEmployee) {
+      throw new Error('Failed to Update Banner');
+    }
+
+    if (employee.deleteId.image && employee.deleteId.imageId) {
+      await deleteFile(employee.deleteId.imageId);
+    }
+
+    return saveUpdatedEmployee;
   } catch (error) {
-    console.log(error)
+    console.error(error);
+    throw error;
   }
 }
 
-// All Employee DATA
+// Delete Employee
+export async function deleteEmployee(EmployeeId) {
+  console.log(EmployeeId);
+  if (!EmployeeId) return;
+
+  try {
+    const statusCode = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.employeeCollectionId,
+      EmployeeId.$id
+    );
+
+    if (!statusCode) throw Error;
+
+    await deleteFile(EmployeeId.ImageId);
+
+    return { status: 'Ok' };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// All Banner Data
 export async function getAllBanner() {
   try {
     const allBanner = await databases.listDocuments(
@@ -374,11 +463,12 @@ export async function getAllBanner() {
     )
     console.log(allBanner)
     if (!allBanner) throw Error
-    return allBanner
+    return allBanner.documents
   } catch (error) {
     console.log(error)
   }
 }
+
 
 //Save Banner
 export async function saveBanner(banner) {
@@ -421,27 +511,48 @@ export async function saveBanner(banner) {
 
 // Update Banner
 export async function updateBanner(updateBanner) {
-
-  console.log(updateBanner)
-
+  console.log(updateBanner);
   try {
-    const saveupdateBanner = await databases.updateDocument(
+    let fileUrl = updateBanner.imageUrl;
+    let uploadedFileId = updateBanner.imageId;
+
+    if (updateBanner.image) {
+      const uploadedFile = await uploadFile(updateBanner.image);
+      if (!uploadedFile) throw new Error('File upload failed');
+
+      fileUrl = getFilePreview(uploadedFile.$id,"wide");
+      if (!fileUrl) {
+        await deleteFile(uploadedFile.$id);
+        throw new Error('Failed to get file preview');
+      }
+
+      uploadedFileId = uploadedFile.$id;
+    }
+
+    const saveUpdatedBanner = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.bannerCollectionId,
-      updateBanner.BannerId,
+      updateBanner.id,
       {
-        Subtitle: updateBanner.title,
-        Title: updateBanner.subtitle,
+        Title: updateBanner.title,
+        Subtitle: updateBanner.subtitle,
+        ImageUrl: fileUrl,
+        ImageId: uploadedFileId,
       }
-    )
-    if (!saveupdateBanner) {
-      throw new Error('Failed to Update Banner')
+    );
+
+    if (!saveUpdatedBanner) {
+      throw new Error('Failed to Update Banner');
     }
-    console.log(saveupdateBanner)
-    return saveupdateBanner
+
+    if (updateBanner.image && updateBanner.imageId) {
+      await deleteFile(updateBanner.imageId);
+    }
+
+    return saveUpdatedBanner;
   } catch (error) {
-    console.error(error)
-    throw error
+    console.error(error);
+    throw error;
   }
 }
 
@@ -469,7 +580,7 @@ export async function deleteBanner(BannerId, imageId) {
 }
 
 
-// All Employee DATA
+// All Gallery Data 
 export async function getAllGallery() {
   try {
     const allGallery = await databases.listDocuments(
@@ -484,9 +595,7 @@ export async function getAllGallery() {
   }
 }
 
-//Save Banner
-
-// Save Employee
+// Save Gallery Photo
 export async function saveGalleryPhoto(gallery) {
   try {
     console.log(gallery)
@@ -659,7 +768,6 @@ export async function getAdminProfileById() {
       appwriteConfig.adminProfileCollectionId,
       '667e547d0023b802bafe'
     )
-    console.log(response)
     return response
   } catch (error) {
     console.error('Failed to fetch sub-services:', error)
@@ -670,7 +778,6 @@ export async function getAdminProfileById() {
 
 // Update Admin Profile
 export async function updateAdminProfile(officeInfoEdited) {
-
   console.log(officeInfoEdited);
   
   try {
@@ -682,7 +789,7 @@ export async function updateAdminProfile(officeInfoEdited) {
         Address: officeInfoEdited.address,
         Email: officeInfoEdited.email,
         Phone: officeInfoEdited.phone,
-        Location: officeInfoEdited.Location,
+        GoogleMap: officeInfoEdited.googleMap,
         Facebook: officeInfoEdited.facebook,
         LinkedIn: officeInfoEdited.linkedin,
         Instagram: officeInfoEdited.description,
@@ -701,6 +808,54 @@ export async function updateAdminProfile(officeInfoEdited) {
   }
 }
 
+// Update Admin Profile Photo
+export async function updateAdminProfilePhoto(adminPhoto) {
+  console.log(adminPhoto);
+
+   if (!adminPhoto.image) {
+      throw new Error('No file provided')
+    }
+  try {
+    let fileUrl = adminPhoto.imageUrl;
+    let uploadedFileId = adminPhoto.imageId;
+
+    if (adminPhoto.image) {
+      const uploadedFile = await uploadFile(adminPhoto.image);
+      if (!uploadedFile) throw new Error('File upload failed');
+
+      fileUrl = getFilePreview(uploadedFile.$id,"wide");
+      if (!fileUrl) {
+        await deleteFile(uploadedFile.$id);
+        throw new Error('Failed to get file preview');
+      }
+      uploadedFileId = uploadedFile.$id;
+    }
+
+    const saveUpdatedPhoto = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.adminProfileCollectionId,
+      '667e547d0023b802bafe',
+      {
+        ImageUrl: fileUrl,
+        ProfilePhotoId: uploadedFileId,
+      }
+    );
+
+    if (!saveUpdatedPhoto) {
+      throw new Error('Failed to Update Admin Photo');
+    }
+
+    if (adminPhoto.image && adminPhoto.imageId) {
+      await deleteFile(adminPhoto.imageId);
+    }
+
+    return saveUpdatedPhoto;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 
 // Get All YoutubeLinks
 export async function getYoutubeLinks() {
@@ -709,7 +864,6 @@ export async function getYoutubeLinks() {
       appwriteConfig.databaseId,
       appwriteConfig.youtubeCollectionId
     )
-    console.log(links)
     if (!links) throw Error
     return links
   } catch (error) {
@@ -726,9 +880,9 @@ export async function saveYoutubeLink(link) {
       appwriteConfig.youtubeCollectionId,
       ID.unique(),
       {
-        Title: link.title,
-        YoutubeUrl : link.url,
-        IsVisible : link.visible
+        Title: link.Title,
+        YoutubeUrl : link.YoutubeUrl,
+        IsVisible : true
       }
     )
     if (!saveLink) {
@@ -744,15 +898,19 @@ export async function saveYoutubeLink(link) {
 
 // Update Youtube Url
 export async function updateYoutubeLink(link) {
+  console.log('Update Start');
+  console.log(link);
+  
+  
   try {
     const updateLink = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.youtubeCollectionId,
-      link.youtubeId,
+      link.id,
       {
-        Title: link.title,
-        YoutubeUrl : link.url,
-        IsVisible : link.visible
+        Title: link.Title,
+        YoutubeUrl : link.YoutubeUrl,
+        IsVisible : true
       }
     )
     if (!updateLink) {
@@ -772,7 +930,7 @@ export async function deleteYoutubeUrl(urlId) {
     const statusCode = await databases.deleteDocument(
       appwriteConfig.databaseId,
       appwriteConfig.youtubeCollectionId,
-      urlId
+      urlId.id
     )
     if (!statusCode) throw Error
     return { status: 'Ok' }

@@ -1,104 +1,202 @@
-import React, { useState } from 'react';
-import './YouTube.css';
+import React, { useState, useEffect } from 'react';
+import {
+  useSaveYoutubeLink,
+  useGetAllYoutube,
+  useDeleteYoutube,
+  useUpdateYoutubeLink,
+} from '../../../lib/react-query/queries';
+import './Banner.css';
 
-const YouTube = () => {
-    const [links, setLinks] = useState([
-        'https://www.youtube.com/watch?v=3JZ_D3ELwOQ',
-        'https://www.youtube.com/watch?v=VYOjWnS4cMY',
-        'https://www.youtube.com/watch?v=LXb3EKWsInQ',
-        'https://www.youtube.com/watch?v=FTQbiNvZqaY'
-    ]);
-    const [newLink, setNewLink] = useState('');
-    const [editing, setEditing] = useState(false);
-    const [editingIndex, setEditingIndex] = useState(null);
+const Youtube = () => {
+  const {
+    data: youtubeData,
+    isLoading: isLoadingYoutube,
+    refetch: refetchYoutubes,
+  } = useGetAllYoutube();
 
-    const extractVideoId = (url) => {
-        const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-        const match = url.match(regex);
-        return match ? match[1] : null;
-    };
+  const [youtubes, setYoutubes] = useState([]);
+  const [formData, setFormData] = useState({ Title: '', YoutubeUrl: '' });
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [error, setError] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+  const [editId, setEditId] = useState(null); // State to hold id of youtube link to edit
+  const [deleteId, setDeleteId] = useState(null); // State to hold id of youtube link to delete
 
-    const handleAdd = () => {
-        if (editing) {
-            const updatedLinks = links.map((link, index) => (index === editingIndex ? newLink : link));
-            setLinks(updatedLinks);
-            setEditing(false);
-            setEditingIndex(null);
-        } else {
-            setLinks([...links, newLink]);
-        }
-        setNewLink('');
-    };
+  useEffect(() => {
+    if (youtubeData && youtubeData.documents) {
+      setYoutubes(youtubeData.documents);
+    }
+  }, [youtubeData]);
 
-    const handleChange = (e) => {
-        setNewLink(e.target.value);
-    };
+  const { mutateAsync: saveYoutubeLink, isLoading: isSavingYoutube } = useSaveYoutubeLink();
+  const { mutateAsync: updateYoutubeLink, isLoading: isUpdatingYoutube } = useUpdateYoutubeLink();
+  const { mutateAsync: deleteYoutube, isLoading: isDeletingYoutube } = useDeleteYoutube();
 
-    const handleAddClick = () => {
-        setNewLink('');
-        setEditing(false);
-        setEditingIndex(null);
-    };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
-    const handleEdit = (index) => {
-        setNewLink(links[index]);
-        setEditing(true);
-        setEditingIndex(index);
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
 
-    const handleDelete = (index) => {
-        const updatedLinks = links.filter((_, i) => i !== index);
-        setLinks(updatedLinks);
-    };
+    if (!formData.Title || !formData.YoutubeUrl) {
+      setError('All fields are required.');
+      return;
+    }
 
-    const handleCancel = () => {
-        setEditing(false);
-        setEditingIndex(null);
-        setNewLink('');
-    };
+    try {
+      if (editId) {
+        await updateYoutubeLink({ id: editId, ...formData });
+      } else {
+        await saveYoutubeLink(formData);
+      }
+      setFormData({ Title: '', YoutubeUrl: '' });
+      setFormSubmitted(true);
+      setShowForm(false);
+      refetchYoutubes();
+    } catch (error) {
+      setError('Failed to save YouTube link. Please try again.');
+    }
+  };
 
-    return (
-        <div className="youtube-container">
-            <button onClick={handleAddClick} className="add-button">Add Link</button>
-            <h1>YouTube Links</h1>
-            <div className="links">
-                {links.map((link, index) => {
-                    const videoId = extractVideoId(link);
-                    const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-                    const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
-                    return (
-                        <div key={index} className="link-item">
-                            <div className="thumbnail">
-                                <a href={videoUrl} target="_blank" rel="noopener noreferrer">
-                                    <img src={thumbnailUrl} alt="Thumbnail" />
-                                </a>
-                            </div>
-                            <div className="details">
-                                <a href={videoUrl} target="_blank" rel="noopener noreferrer">{videoUrl}</a>
-                                <button onClick={() => handleEdit(index)} className="edit-button">Edit</button>
-                                <button onClick={() => handleDelete(index)} className="delete-button">Delete</button>
-                            </div>
-                        </div>
-                    );
-                })}
+  const handleAddYoutube = () => {
+    setShowForm(true);
+    setEditId(null);
+    setFormData({ Title: '', YoutubeUrl: '' });
+  };
+
+  const handleCancel = () => {
+    setShowForm(false);
+    setFormData({ Title: '', YoutubeUrl: '' });
+    setError(null);
+  };
+
+  const confirmDelete = async (youtubeId) => {
+    try {
+      await deleteYoutube({ id: youtubeId });
+      refetchYoutubes();
+    } catch (error) {
+      console.error('Failed to delete YouTube link:', error);
+    }
+    setDeleteId(null);
+  };
+
+  const handleEdit = (youtubeId) => {
+    const youtube = youtubes.find((yt) => yt.$id === youtubeId);
+    if (youtube) {
+      setFormData({ Title: youtube.Title, YoutubeUrl: youtube.YoutubeUrl });
+      setEditId(youtubeId);
+      setShowForm(true);
+    }
+  };
+
+  return (
+    <div className='banner1-container'>
+      <h1>YouTube Links</h1>
+      <div className='add-banner-button-container'>
+        <button onClick={handleAddYoutube} className='add-banner-button'>
+          Add YouTube Link
+        </button>
+      </div>
+      {showForm && (
+        <div className='form-overlay'>
+          <form onSubmit={handleSubmit} className='banner-form'>
+            <div className='form-row'>
+              <label>Title:</label>
+              <input
+                type='text'
+                name='Title'
+                value={formData.Title}
+                onChange={handleChange}
+                required
+              />
             </div>
-            {(editing || newLink !== '') && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <span className="close" onClick={handleCancel}>&times;</span>
-                        <h2>{editing ? 'Edit YouTube Link' : 'Add YouTube Link'}</h2>
-                        <input 
-                            type="text" 
-                            value={newLink} 
-                            onChange={handleChange} 
-                            placeholder="Enter YouTube URL" 
-                        />
-                        <button onClick={handleAdd}>{editing ? 'Save' : 'Add'}</button>
-                    </div>
-                </div>
+            <div className='form-row'>
+              <label>YouTube URL:</label>
+              <input
+                type='text'
+                name='YoutubeUrl'
+                value={formData.YoutubeUrl}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className='button-row'>
+              <button type='submit' disabled={isSavingYoutube || isUpdatingYoutube}>
+                {isSavingYoutube || isUpdatingYoutube ? 'Saving...' : 'Add'}
+              </button>
+              <button type='button' onClick={handleCancel}>
+                Cancel
+              </button>
+            </div>
+            {error && <p className='error-message'>{error}</p>}
+            {formSubmitted && (
+              <p className='success-message'>YouTube link added successfully!</p>
             )}
+          </form>
         </div>
-    );
+      )}
+      <div className='banner-table-container'>
+        <table className='banner-table'>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>YouTube URL</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {youtubes.map((youtube) => (
+              <tr key={youtube.$id}>
+                <td>{youtube.Title}</td>
+                <td>{youtube.YoutubeUrl}</td>
+                <td>
+                  <button
+                    onClick={() => handleEdit(youtube.$id)}
+                    className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2'
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => setDeleteId(youtube.$id)}
+                    className='bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded'
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {deleteId && (
+        <div className='delete-modal'>
+          <div className='delete-modal-content'>
+            <p>Are you sure you want to delete this YouTube link?</p>
+            <div>
+              <button
+                onClick={() => confirmDelete(deleteId)}
+                className='bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-2'
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => setDeleteId(null)}
+                className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded'
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
-export default YouTube;
+export default Youtube;

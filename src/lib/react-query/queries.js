@@ -27,12 +27,19 @@ import {
   deleteBanner,
   updateBanner,
   getAdminProfileById,
-  updateAdminProfile
+  updateAdminProfile,
+  saveYoutubeLink,
+  getYoutubeLinks,
+  updateYoutubeLink,
+  deleteYoutubeUrl,
+  updateAdminProfilePhoto,
+  updateEmployee,
+  deleteEmployee
 } from '../appwrite/api'
 
 import { QUERY_KEYS } from './queryKeys'
 
-//// AUTH QUERIES
+//======================== Auth API's ===============================
 
 export const useSignInAccount = () => {
   return useMutation({
@@ -51,9 +58,7 @@ export const useCreatAdminAccount = () => {
   })
 }
 
-// ============================================================
-// Admin QUERIES
-// ============================================================
+// ========================== Resume API's ======================
 
 //SEND RESUME
 export const useSendResume = () => {
@@ -91,7 +96,7 @@ export const useGetAllContactUs = () => {
     queryFn: getAllContactUs,
   })
 }
-
+// ========================= Meetings API's ======================
 // Save MEETING
 export const useSaveMeeting = () => {
   return useMutation({
@@ -106,7 +111,7 @@ export const useGetAllMeeting = () => {
     queryFn: getAllMeetings,
   })
 }
-
+// ======================= Employee API's =====================
 // Save EMPLOYEE
 export const useSaveEmployee = () => {
   const queryClient = useQueryClient()
@@ -129,6 +134,34 @@ export const useGetAllEmployee = () => {
   })
 }
 
+// Update Banner
+export const useUpdateEmployee = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (employee) => updateEmployee(employee),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_ALL_EMPLOYEE],
+      })
+    },
+  })
+}
+
+// Delete Banner
+export const useDeleteEmployee = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (EmployeeId) =>
+      deleteEmployee(EmployeeId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_ALL_BANNER],
+      });
+    },
+  });
+};
+
+// ========================= Banner API's ==========================
 // All Banner
 export const useGetAllBanner = () => {
   return useQuery({
@@ -154,7 +187,6 @@ export const useSaveBanner = () => {
 // Update Banner
 export const useUpdateBanner = () => {
   const queryClient = useQueryClient()
-
   return useMutation({
     mutationFn: (banner) => updateBanner(banner),
     onSuccess: () => {
@@ -179,7 +211,7 @@ export const useDeleteBanner = () => {
   });
 };
 
-
+// =========================== Gallery API's ===========================
 // All Gallery
 export const useGetAllGallery = () => {
   return useQuery({
@@ -201,11 +233,11 @@ export const useSaveGalleryPhoto = () => {
     },
   })
 }
-
+//========================== Services API's ========================
 // All Services Data
 export const useGetAllServices = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_ALL_EMPLOYEE],
+    queryKey: [QUERY_KEYS.GET_ALL_SERVICES],
     queryFn: getAllServices,
   })
 }
@@ -246,7 +278,7 @@ export const useUpdateSubService = () => {
     mutationFn: (updatedService) => updateSubService(updatedService),
   })
 }
-
+// ========================= Admin Profile =================
 // Admin Profile Data
 export const useGetAdminProfile= () => {
   return useQuery({
@@ -268,6 +300,70 @@ export const useUpdateAdminProfile = () => {
     },
   })
 }
+
+// Update Admin Profile
+export const useUpdateAdminProfilePhoto = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (profilePhoto) => 
+       updateAdminProfilePhoto(profilePhoto),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_ADMIN_PROFILE],
+      })
+    },
+  })
+}
+
+// ========================= Youtube API's ==========================
+// Save Youtube Link
+export const useSaveYoutubeLink = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (link) => saveYoutubeLink(link),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_ALL_YOUTUBE_LINK],
+      })
+    },
+  })
+}
+
+// All Youtube Links 
+export const useGetAllYoutube = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_ALL_YOUTUBE_LINK],
+    queryFn: getYoutubeLinks,
+  })
+}
+
+// Update Admin Profile
+export const useUpdateYoutubeLink = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (link) => 
+       updateYoutubeLink(link),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_ALL_YOUTUBE_LINK],
+      })
+    },
+  })
+}
+
+// Delete Banner
+export const useDeleteYoutube = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (Link) =>
+      deleteYoutubeUrl(Link),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_ALL_YOUTUBE_LINK],
+      });
+    },
+  });
+};
 
 // export const useSendResume = () => {
 //   const queryClient = queryClient()

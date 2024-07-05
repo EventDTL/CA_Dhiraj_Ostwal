@@ -277,6 +277,7 @@ const Contact = () => {
                       fullWidth
                       label='Phone Number'
                       name='phone'
+                      type='number'
                       placeholder='+91 888996633'
                       variant='outlined'
                       value={formData.phone}

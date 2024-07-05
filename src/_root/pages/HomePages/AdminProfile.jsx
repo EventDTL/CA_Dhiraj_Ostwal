@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './AdminProfile.css';
-import { useGetAdminProfile, useUpdateAdminProfile } from '../../../lib/react-query/queries';
+import { useGetAdminProfile, useUpdateAdminProfile, useUpdateAdminProfilePhoto } from '../../../lib/react-query/queries';
 import Loader from '../../../component/shared/Loader2';
 
 const AdminProfile = () => {
@@ -11,10 +11,11 @@ const AdminProfile = () => {
     refetch,
   } = useGetAdminProfile();
   const { mutateAsync: updateAdmin, isLoading: isUpdateLoading } = useUpdateAdminProfile();
+  const { mutateAsync: updateAdminPhoto, isLoading: isProfileLoading } = useUpdateAdminProfilePhoto();
 
   const [photo, setPhoto] = useState('');
   const [editing, setEditing] = useState(false);
-  const [newPhoto, setNewPhoto] = useState('');
+  const [newPhoto, setNewPhoto] = useState(null);
   const [officeInfo, setOfficeInfo] = useState({
     address: '',
     email: '',
@@ -29,18 +30,22 @@ const AdminProfile = () => {
     whatsapp: ''
   });
 
+  const [imageId, setImageId] = useState(null); // State to hold id of banner to delete
+  const [imageUrl, setImageUrl] = useState(null);
   const [photoEdited, setPhotoEdited] = useState(false);
   const [officeInfoEdited, setOfficeInfoEdited] = useState(false);
   const [socialLinksEdited, setSocialLinksEdited] = useState(false);
 
   useEffect(() => {
     if (adminProfileData) {
+      setImageId(adminProfileData.ProfilePhotoId);
+      setImageUrl(adminProfileData.ImageUrl);
       setPhoto(adminProfileData.ImageUrl);
       setOfficeInfo({
         address: adminProfileData.Address,
         email: adminProfileData.Email,
         phone: adminProfileData.Phone,
-        googleMap: adminProfileData.Location
+        googleMap: adminProfileData.GoogleMap
       });
       setSocialLinks({
         facebook: adminProfileData.Facebook,
@@ -63,10 +68,9 @@ const AdminProfile = () => {
 
   const handleSave = async () => {
     if (photoEdited) {
-      // Handle photo save logic
+      await updateAdminPhoto({image:newPhoto,imageId:imageId,imageUrl:imageUrl});
     }
     if (officeInfoEdited || socialLinksEdited) {
-     
       await updateAdmin({ ...officeInfo, ...socialLinks });
     }
     if (!isUpdateLoading) {
@@ -78,8 +82,12 @@ const AdminProfile = () => {
   };
 
   const handleChange = (e) => {
-    setNewPhoto(URL.createObjectURL(e.target.files[0]));
-    setPhotoEdited(true);
+    const file = e.target.files[0];
+    if (file) {
+      setNewPhoto(file);
+      setPhoto(URL.createObjectURL(file));
+      setPhotoEdited(true);
+    }
   };
 
   const handleCancel = () => {
@@ -137,21 +145,19 @@ const AdminProfile = () => {
             <button onClick={handleEdit} className="btn edit-btn">Edit</button>
             <button onClick={handleDelete} className="btn delete-btn">Delete</button>
           </div>
-{isSaveEnabled && (
-  <div className="buttons">
-    <button onClick={handleSave} className={`btn save-btn ${!isSaveEnabled ? 'disabled' : ''}`} disabled={!isSaveEnabled}>
-      {isUpdateLoading ? (
-        <>
-          <Loader /> Saving...
-        </>
-      ) : (
-        'Save Changes'
-      )}
-    </button>
-  </div>
-)}
-
-
+          {isSaveEnabled && (
+            <div className="buttons">
+              <button onClick={handleSave} className={`btn save-btn ${!isSaveEnabled ? 'disabled' : ''}`} disabled={!isSaveEnabled}>
+                {isUpdateLoading ? (
+                  <>
+                    <Loader /> Saving...
+                  </>
+                ) : (
+                  'Save Changes'
+                )}
+              </button>
+            </div>
+          )}
           {editing && (
             <div className="modal">
               <div className="modal-content">

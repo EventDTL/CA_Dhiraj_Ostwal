@@ -38,10 +38,12 @@ import Contact1 from './_root/pages/Contact.jsx'
 import Employee1 from './_root/pages/Employee.jsx'
 import Meetings from './_root/pages/Meetings.jsx'
 import PhotoGallery from './_root/pages/PhotoGallery.jsx'
+import { useGetAdminProfile } from './lib/react-query/queries.js';
 
 function App() {
   const { isAuthenticated, isLoading } = useUserContext();
   const [isAdminAuthenticated, isSetAuthenticated] = useState(false);
+  useGetAdminProfile()
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -64,7 +66,7 @@ function App() {
 
   return (
     <>
-      {isAdminAuthenticated ? (
+      {isAdminAuthenticated  ? (
           <>
           <TopNavbar />
           <div className='main-container1'>

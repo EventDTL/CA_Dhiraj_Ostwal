@@ -70,7 +70,7 @@
 }
 
 .employee-form .input-group input,
-select {
+.employee-form .input-group select {
  margin-left: 5px;
  flex: 1;
  padding: 12px;

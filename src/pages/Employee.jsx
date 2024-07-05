@@ -1,94 +1,67 @@
-import emp1 from "../images/nagini.jpg";
-import emp2 from "../images/chanchl.jpg";
-import emp3 from "../images/hemant.jpg";
-import emp4 from "../images/gauri.jpg";
-import emp5 from "../images/purva.jpg";
-import emp6 from "../images/ganesh.jpg";
-import emp7 from "../images/mitali.jpg";
-import emp8 from "../images/mukta.jpg";
-// import Img from '../images/carrer.jpg';
-// import Banner from '../component/ui/Banner';
+import React, { useState, useRef,useEffect } from 'react';
+import Slider from 'react-slick';
 import './employee.css';
-import React, { useState, useEffect, useRef } from 'react';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { useGetAllEmployee } from '../lib/react-query/queries';
 
-function Employee() {
-    const employees = [
-        { image: emp1, name: "Nagini Mhatre", position: "Account Assistant" },
-        { image: emp2, name: "Chanchal Mate", position: "Account Assistant" },
-        { image: emp3, name: "Hemant Zujam", position: "Senior Executive" },
-        { image: emp4, name: "Gauri Jagtap", position: "Account Assistant" },
-        { image: emp5, name: "Purva Kulkarni", position: "Account Assistant" },
-        { image: emp6, name: "Ganesh Manjare", position: "Manger" },
-        { image: emp7, name: "Mitali Shinde", position: "Account Assistant" },
-        { image: emp8, name: "Mukta Jagdale", position: "Account Assistant" },
-    ];
-
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const timeoutRef = useRef(null);
+const Employee = () => {
+    
+    const { data: employeeData, isLoading: isLoadingEmp, error, refetch } = useGetAllEmployee();
+    const [activeSlide, setActiveSlide] = useState(0);
+    const sliderRef = useRef(null);
+    const [teamMembers, setEmployees] = useState([])
 
     useEffect(() => {
-        const nextSlide = () => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % employees.length);
-        };
+    if (employeeData) {
+      setEmployees(employeeData)
+    }
+  }, [employeeData])
 
-        timeoutRef.current = setInterval(nextSlide, 2500);
+    // const teamMembers = [
+    //     { src: "mitali.jpg", name: "Ms. Nagini Mhatre", role: "Account Assistant" },
+    //     { src: "ganesh.jpg", name: "Mr. Ganesh Manjare", role: "Full Stack Developer" },
+    //     { src: "hemant.jpg", name: "Mr. Hemant Zujam", role: "Full Stack Developer" },
+    //     { src: "mukta.jpg", name: "Ms. Mukta Jagdale", role: "Account Assistant" },
+    //     { src: "nagini.jpg", name: "Ms. Nagini Mhatre", role: "Account Assistant" },
+    //     { src: "purva.jpg", name: "Ms. Purva Kulkarni", role: "Account Assistant" },
+    //     { src: "gauri.jpg", name: "Ms. Gauri Jagtap", role: "Web Developer" },
+    //     { src: "chanchal.jpg", name: "Ms. Chanchal Mate", role: "Web Developer" },
+    // ];
 
-        return () => {
-            if (timeoutRef.current) {
-                clearInterval(timeoutRef.current);
-            }
-        };
-    }, []);
-
-    const nextSlide = () => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % employees.length);
-    };
-
-    const prevSlide = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? employees.length - 1 : prevIndex - 1
-        );
-    };
-
-    const getSlidesToShow = () => {
-        const slides = [];
-        for (let i = 0; i < 3; i++) {
-            const adjustedIndex = (currentIndex + i) % employees.length;
-            slides.push(employees[adjustedIndex]);
-        }
-        return slides;
+    const sliderSettings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        centerMode: true,
+        centerPadding: "0",
+        autoplay: true,
+        autoplaySpeed: 2000,
+        pauseOnHover: false,
+        beforeChange: (current, next) => setActiveSlide(next),
+        afterChange: (current) => setActiveSlide(current),
     };
 
     return (
-        <>
-            {/* <Banner
-                imageUrl={Img}
-                breadcrumb='Home > Career'
-                headline='Employee'
-            /> */}
-            <div className="emp">
-                <div className="emtext"> <h2><span>Our </span>Team</h2>
-                </div>
-                <div className="slider">
-                    <button onClick={prevSlide} className="slider-button">
-                        &#10094;
-                    </button>
-                    <div className="slider-content">
-                        {getSlidesToShow().map((employee, index) => (
-                            <div className={`slide ${index === 1 ? 'center' : ''}`} key={index}>
-                                <img src={employee.image} alt={`Slide ${index}`} />
-                                <h1>{employee.name}</h1>
-                                <p>{employee.position}</p>
+        <div className="event-team-slider">
+            <h5>Meet Our Team</h5>
+            <div className="slider-container">
+                <Slider ref={sliderRef} {...sliderSettings}>
+                    {teamMembers.map((member, index) => (
+                        <div key={index} className={`team-member ${activeSlide === index ? 'slick-center' : ''}`}>
+                            <div className="member-info">
+                                <img src={member.ImageUrl} alt={member.FirstName} />
+                                <p>{member.FirstName}</p>
+                                <p><b>{member.Position}</b></p>
                             </div>
-                        ))}
-                    </div>
-                    <button onClick={nextSlide} className="slider-button">
-                        &#10095;
-                    </button>
-                </div>
+                        </div>
+                    ))}
+                </Slider>
             </div>
-        </>
+        </div>
     );
-}
+};
 
 export default Employee;

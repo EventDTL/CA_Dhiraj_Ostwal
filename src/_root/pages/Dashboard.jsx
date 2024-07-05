@@ -66,6 +66,7 @@ function Dashboard() {
         })
       }
 
+      console.log(userData.meetings);
       // Check userData.meetings
       if (userData.meetings && userData.meetings.length > 0) {
         userData.meetings.forEach((meeting) => {
@@ -96,8 +97,8 @@ function Dashboard() {
       <div className='admin-profile'>
         <FontAwesomeIcon icon={faUserTie} className='profile-icon' />
         <div className='profile-details'>
-          <h2>Admin Name</h2>
-          <p>{user.name}</p>
+          <p>Admin Name</p>
+          <h2>{user.name}</h2>
         </div>
       </div>
       <div className='dashboard-cards'>
@@ -250,13 +251,20 @@ function Dashboard() {
               </div>
               <div className='activity-details'>
                 <p>
-                  Reviewed new inquiry{' '}
-                  {userData.contact[userData.contact.length - 1].FirstName}{' '}
+                  New Meeting Schedule {' '} {formatDistanceToNow(
+                    parseISO(
+                      userData.meetings[userData.meetings.length - 1].DateTime
+                    ),
+                    {
+                      addSuffix: true,
+                    }
+                  )}
+                  {/* {userData.meetings[userData.meetings.length - 1].Name}{' '} */}
                 </p>
                 <span className='activity-time'>
                   {formatDistanceToNow(
                     parseISO(
-                      userData.contact[userData.contact.length - 1].SubmitDate
+                      userData.meetings[userData.meetings.length - 1].SubmitDate
                     ),
                     {
                       addSuffix: true,

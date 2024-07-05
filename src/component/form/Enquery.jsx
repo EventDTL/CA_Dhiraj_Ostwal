@@ -1,26 +1,53 @@
 import React, { useState } from 'react'
 import './Enquery.css'
+import { useSaveMeeting } from '../../lib/react-query/queries'
 
 const Enquery = ({ closeModal }) => {
+  const { mutateAsync: saveMeeting, isLoading: isLoadingMeeting } =
+    useSaveMeeting()
+
   const [formData, setFormData] = useState({
     whatsappNumber: '',
-    date: '',
-    time: '',
+    subject: '',
+    datetime: '',
   })
+  const [formSubmitted, setFormSubmitted] = useState(false)
+  const [error, setError] = useState(null)
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
-    })
+    }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Handle form submission, e.g., send the data to a server or display a confirmation message
-    console.log(formData)
-    closeModal()
+    setError(null)
+
+    if (!formData.whatsappNumber || !formData.subject || !formData.datetime) {
+      setError('All fields are required.')
+      return
+    }
+
+    const data = {
+      whatsappNumber: formData.whatsappNumber,
+      subject: formData.subject,
+      datetime: formData.datetime,
+    }
+
+    try {
+      await saveMeeting(data)
+      setFormData({
+        whatsappNumber: '',
+        subject: '',
+        datetime: '',
+      })
+      setFormSubmitted(true)
+    } catch (error) {
+      setError('Failed to send message. Please try again.')
+    }
   }
 
   return (
@@ -30,6 +57,11 @@ const Enquery = ({ closeModal }) => {
           &times;
         </button>
         <h2>Book an Appointment</h2>
+        {formSubmitted && !error && (
+          <div className='success-message' style={{ color: 'green' }}>
+            Meeting scheduled successfully!
+          </div>
+        )}
         <form onSubmit={handleSubmit} className='appointment-form'>
           <label htmlFor='whatsappNumber'>WhatsApp Number:</label>
           <input
@@ -41,28 +73,34 @@ const Enquery = ({ closeModal }) => {
             required
           />
 
-          <label htmlFor='date'>Date:</label>
+          <label htmlFor='subject'>Subject:</label>
           <input
-            type='date'
-            id='date'
-            name='date'
-            value={formData.date}
+            type='text'
+            id='subject'
+            name='subject'
+            value={formData.subject}
             onChange={handleChange}
             required
           />
 
-          <label htmlFor='time'>Time:</label>
+          <label htmlFor='datetime'>Date and Time:</label>
           <input
-            type='time'
-            id='time'
-            name='time'
-            value={formData.time}
+            type='datetime-local'
+            id='datetime'
+            name='datetime'
+            value={formData.datetime}
             onChange={handleChange}
             required
           />
 
-          <button type='submit' className='submit-button'>
-            Submit
+          {error && <div className='error-message'>{error}</div>}
+
+          <button
+            type='submit'
+            className='submit-button'
+            disabled={isLoadingMeeting}
+          >
+            {isLoadingMeeting ? 'Submitting...' : 'Submit'}
           </button>
         </form>
       </div>

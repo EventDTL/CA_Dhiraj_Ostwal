@@ -140,13 +140,14 @@ function Careers() {
               </div>
               <div className='input-group'>
                 <i className='fa fa-file icon'></i>
-                <input
-                  type='file'
-                  name='file'
-                  id='file'
-                  className='file-input'
-                  onChange={handleChange}
-                />
+               <input
+                type="file"
+                name="file"
+                id="file"
+                className="file-input"
+                accept="application/pdf"
+                onChange={handleChange}
+              />
                 <label htmlFor='file' className='file-label'>
                   <span className='file-text'>
                     {formData.file ? formData.file.name : 'Upload your CV *'}

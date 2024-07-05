@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SimpleImageSlider from 'react-simple-image-slider';
 import './ImgSlider.css'; // Import the CSS file for styling
+import { useGetAllBanner } from '../../lib/react-query/queries';
 
-const images = [
+const defaultImages = [
   {
     url: 'assets/hero1.jpg',
     header: 'Team Building Workshop',
@@ -36,13 +37,26 @@ const images = [
 ];
 
 const ImgSlider = () => {
+  const {
+    data: bannerData,
+    isLoading: isLoadingBanner,
+    error,
+    refetch,
+  } = useGetAllBanner();
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const onSlideChange = (index) => {
-    if (index >= 0 && index < images.length) {
+    if (index >= 0 && index < (bannerData ? bannerData.length : defaultImages.length)) {
       setCurrentIndex(index);
     }
   };
+
+  const images = bannerData ? bannerData.map(banner => ({
+    url: banner.ImageUrl,
+    header: banner.Title,
+    text: banner.Subtitle,
+  })) : defaultImages;
 
   return (
     <div className="img-slider-container">

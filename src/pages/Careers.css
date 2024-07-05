@@ -28,6 +28,14 @@
     max-width: 800px;
 }
 
+.application-form {
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    max-height: 500px;
+}
+
 .job-description p {
     font-size: 1rem;
     line-height: 1.6;

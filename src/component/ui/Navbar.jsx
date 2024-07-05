@@ -26,11 +26,21 @@ import FacebookIcon from '@mui/icons-material/Facebook'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import logo from './assets/CALOGO.png'
 import './navbar.css'
+import { useGetAllServices } from '../../lib/react-query/queries'
 
 const Navbar = () => {
   const navigate = useNavigate()
   const location = useLocation();
   const dropdownRef = useRef(null);
+
+    const {
+    data: servicesData,
+    isLoading: isLoadingService,
+    error,
+    refetch,
+  } = useGetAllServices()
+
+  console.log(servicesData);
 
   const [open, setOpen] = useState(false)
   const [showServicesDropdown, setShowServicesDropdown] = useState(false)
@@ -151,17 +161,18 @@ const Navbar = () => {
         </ListItem>
         <Collapse in={openServices} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
-            {Object.keys(ServiceData).map((serviceName, index) => (
+            {servicesData &&
+          Array.isArray(servicesData) &&
+          servicesData.map((service) => (
               <ListItemButton
-                key={index}
                 sx={{
                   justifyContent: 'center',
                   textAlign: 'center',
                   width: '100%',
                 }}
-                onClick={() => navigate(`/services/${serviceName}`)}
+                onClick={() => navigate(`/services/${service.$id}`)}
               >
-                <ListItemText primary={ServiceData[serviceName].headline} />
+                <ListItemText primary={service.ServiceHeadline} />
               </ListItemButton>
             ))}
           </List>
@@ -325,6 +336,10 @@ const Navbar = () => {
     </Box>
   )
 
+  
+  if (isLoadingService) {
+    return <div style={{ color: 'white' }}>Loading...</div>
+  }
   return (
     <div className='nav2'>
       <div className='nav2-left'>
@@ -391,16 +406,17 @@ const Navbar = () => {
           </button>
           {showServicesDropdown && (
             <div className='dropdownService'>
-              {Object.keys(ServiceData).map((serviceName, index) => (
+              {servicesData &&
+          Array.isArray(servicesData) &&
+          servicesData.map((service) => (
                 <button
-                  key={index}
                   className='dropdown-item'
                     onClick={() => {
-                    navigate(`/services/${serviceName}`);
+                    navigate(`/services/${service.$id}`);
                     toggleServicesDropdown();
                  }}
                 >
-                  {ServiceData[serviceName].headline}
+                  {service.ServiceHeadline}
                 </button>
               ))}
             </div>

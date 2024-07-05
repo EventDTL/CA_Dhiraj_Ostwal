@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSaveBanner, useGetAllBanner, useDeleteBanner } from '../../../lib/react-query/queries';
+import { useSaveBanner, useUpdateBanner, useGetAllBanner, useDeleteBanner } from '../../../lib/react-query/queries';
 import './Banner.css';
 
 const Banner = () => {
@@ -21,14 +21,17 @@ const Banner = () => {
   const [showForm, setShowForm] = useState(false);
   const [deleteId, setDeleteId] = useState(null); // State to hold id of banner to delete
   const [imageId, setImageId] = useState(null); // State to hold id of banner to delete
+  const [imageUrl, setImageUrl] = useState(null); // State to hold id of banner to delete
+  const [editingBannerId, setEditingBannerId] = useState(null); // State to hold id of banner being edited
 
   useEffect(() => {
-    if (bannerData && bannerData.documents) {
-      setBanner(bannerData.documents);
+    if (bannerData) {
+      setBanner(bannerData);
     }
   }, [bannerData]);
 
   const { mutateAsync: saveBanner, isLoading: isSavingBanner } = useSaveBanner();
+  const { mutateAsync: updateBanner, isLoading: isUpdatingBanner } = useUpdateBanner();
   const { mutateAsync: deleteBanner, isLoading: isDeletingBanner } = useDeleteBanner();
 
   const handleChange = (e) => {
@@ -55,13 +58,17 @@ const Banner = () => {
     e.preventDefault();
     setError(null);
 
-    if (!formData.title || !formData.subtitle || !formData.image) {
+    if (!formData.title || !formData.subtitle || (!formData.image && !editingBannerId)) {
       setError('All fields are required.');
       return;
     }
 
     try {
-      await saveBanner(formData);
+      if (editingBannerId) {
+        await updateBanner({ ...formData, id: editingBannerId,imageId: imageId ,imageUrl:imageUrl});
+      } else {
+        await saveBanner(formData);
+      }
       setFormData({
         title: '',
         subtitle: '',
@@ -70,6 +77,7 @@ const Banner = () => {
       setImagePreview(null);
       setFormSubmitted(true);
       setShowForm(false);
+      setEditingBannerId(null); // Clear editing state
       // Refetch banners after successful submission
       refetchBanners();
     } catch (error) {
@@ -78,10 +86,13 @@ const Banner = () => {
   };
 
   const handleAddBanner = () => {
+    setFormSubmitted(false);
     setShowForm(true);
+    setEditingBannerId(null); // Clear editing state if adding new banner
   };
 
   const handleCancel = () => {
+    setFormSubmitted(false);
     setShowForm(false);
     setFormData({
       title: '',
@@ -92,21 +103,29 @@ const Banner = () => {
     setError(null);
   };
 
- const confirmDelete = async (BannerId, imageId) => {
-  try {
-    await deleteBanner({ BannerId, imageId });
-  } catch (error) {
-    console.error('Failed to delete banner:', error);
-  }
-  // Clear deleteId state after deletion or cancellation
-  setDeleteId(null);
-  setImageId(null); // Also clear imageId state
-};
+  const confirmDelete = async (BannerId, imageId) => {
+    try {
+      await deleteBanner({ BannerId, imageId });
+    } catch (error) {
+      console.error('Failed to delete banner:', error);
+    }
+    // Clear deleteId state after deletion or cancellation
+    setDeleteId(null);
+    setImageId(null); // Also clear imageId state
+  };
 
-
-  const handleEdit = (bannerId) => {
-    // Handle edit functionality here
-    console.log('Edit banner with id:', bannerId);
+  const handleEdit = (banner) => {
+    setFormSubmitted(false);
+    setFormData({
+      title: banner.Title,
+      subtitle: banner.Subtitle,
+      image: null, // Reset image input
+    });
+    setImagePreview(banner.ImageUrl); // Set image preview to current image
+    setShowForm(true);
+    setImageId(banner.ImageId);
+    setImageUrl(banner.ImageUrl)
+    setEditingBannerId(banner.$id); // Set editing banner id
   };
 
   return (
@@ -146,7 +165,7 @@ const Banner = () => {
                 type='file'
                 accept='image/*'
                 onChange={handleImageChange}
-                required
+                required={!editingBannerId} // Only required if not editing
               />
             </div>
             {imagePreview && (
@@ -155,8 +174,8 @@ const Banner = () => {
               </div>
             )}
             <div className='button-row'>
-              <button type='submit' disabled={isSavingBanner}>
-                {isSavingBanner ? 'Saving...' : 'Add'}
+              <button type='submit' disabled={isSavingBanner || isUpdatingBanner}>
+                {isSavingBanner || isUpdatingBanner ? 'Saving...' : editingBannerId ? 'Save Changes' : 'Add'}
               </button>
               <button type='button' onClick={handleCancel}>
                 Cancel
@@ -164,7 +183,7 @@ const Banner = () => {
             </div>
             {error && <p className='error-message'>{error}</p>}
             {formSubmitted && (
-              <p className='success-message'>Banner added successfully!</p>
+              <p className='success-message'>Banner {editingBannerId ? 'updated' : 'added'} successfully!</p>
             )}
           </form>
         </div>
@@ -193,11 +212,17 @@ const Banner = () => {
                 </td>
                 <td>
                   <button
-              onClick={() => {setDeleteId(banner.$id);setImageId(banner.ImageId)}}
-              className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-2"
-            >
-              Delete
-            </button>
+                    onClick={() => {handleEdit(banner)}}
+                    className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 m-2 rounded mr-2'
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => { setDeleteId(banner.$id); setImageId(banner.ImageId); }}
+                    className='bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-2'
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -209,18 +234,18 @@ const Banner = () => {
           <div className='delete-modal-content'>
             <p>Are you sure you want to delete this banner?</p>
             <div>
-             <button
-              onClick={() => confirmDelete(deleteId,imageId)}
-              className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-2"
-            >
-              Yes 
-            </button>
-            <button
-              onClick={() => setDeleteId(null)}
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
-            >
-              No
-            </button>
+              <button
+                onClick={() => confirmDelete(deleteId, imageId)}
+                className='bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-2'
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => setDeleteId(null)}
+                className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded'
+              >
+                No
+              </button>
             </div>
           </div>
         </div>

@@ -4,28 +4,41 @@ import ServiceData from './ServiceData'
 import './ServicePage.css'
 import Banner from '../../component/ui/Banner'
 import Modal from '../../component/form/Enquery' // Import the modal component
+import { useGetSubServices } from '../../lib/react-query/queries'
 
 function ServicePage() {
   const { serviceName } = useParams()
+
+  console.log(serviceName);
+  const {
+    data: subServicesData,
+    isLoading: isLoadingSubService,
+    error,
+    refetch,
+  } = useGetSubServices(serviceName)
+
+  console.log(subServicesData);
+
   const service = ServiceData[serviceName]
   const [isModalOpen, setModalOpen] = useState(false)
 
-  if (!service) {
-    return <div>Service not found</div>
+
+    if (isLoadingSubService) {
+    return <div style={{ color: 'Black' }} className='mt-5'>Loading...</div>
   }
 
-  const serviceLogo = `/src/assets/services/${serviceName}.jpg`
+  const serviceLogo = `/src/assets/services/${subServicesData.ServiceName}.jpg`
 
   return (
     <>
       <Banner
         imageUrl={serviceLogo}
-        breadcrumb={`Home > ${service.headline}`}
-        headline={service.headline}
+        breadcrumb={`Home > ${subServicesData.ServiceHeadline}`}
+        headline={subServicesData.ServiceHeadline}
       />
 
       <section className='services'>
-        <h2>{service.headline}</h2>
+        <h2>{subServicesData.ServiceHeadline}</h2>
         <div className='button-container'>
           <a
             href='https://wa.me/9518994028?text=Hi%20there,%20I%27m%20interested%20in%20your%20services.'
@@ -52,15 +65,14 @@ function ServicePage() {
           </button>
         </div>
         <div className='service-details'>
-          {service.content.map((item, index) => (
-            <div key={index} className='service-item'>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
+          {subServicesData?.subService?.map((subService)=> (
+            <div className='service-item'>
+              <h3>{subService.Title}</h3>
+              <p>{subService.Description}</p>
             </div>
           ))}
         </div>
         {isModalOpen && <Modal closeModal={() => setModalOpen(false)} />}{' '}
-        {/* Render modal if open */}
       </section>
     </>
   )
