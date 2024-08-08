@@ -40,7 +40,6 @@ const Navbar = () => {
     refetch,
   } = useGetAllServices()
 
-  console.log(servicesData);
 
   const [open, setOpen] = useState(false)
   const [showServicesDropdown, setShowServicesDropdown] = useState(false)
@@ -48,12 +47,10 @@ const Navbar = () => {
   const theme = useTheme()
 
   const toggleDrawer = (newOpen) => () => {
-    console.log("CLose");
     setOpen(newOpen)
   }
 
   const handleDrawerClose = () => {
-        console.log("CLose");
     setOpen(false)
   }
 
@@ -161,20 +158,76 @@ const Navbar = () => {
         </ListItem>
         <Collapse in={openServices} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
-            {servicesData &&
-          Array.isArray(servicesData) &&
-          servicesData.map((service) => (
               <ListItemButton
                 sx={{
                   justifyContent: 'center',
                   textAlign: 'center',
                   width: '100%',
                 }}
-                onClick={() => navigate(`/services/${service.$id}`)}
+                onClick={() => navigate(`/services/taxservices`)}
               >
-                <ListItemText primary={service.ServiceHeadline} />
+                <ListItemText primary="Tax Services" />
               </ListItemButton>
-            ))}
+              <ListItemButton
+                sx={{
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  width: '100%',
+                }}
+                onClick={() => navigate(`/services/comforReg`)}
+              >
+                <ListItemText primary="Company Formation and Registration" />
+              </ListItemButton>
+              <ListItemButton
+                sx={{
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  width: '100%',
+                }}
+                onClick={() => navigate(`/services/auditServices`)}
+              >
+                <ListItemText primary="Audit Services" />
+              </ListItemButton>
+              <ListItemButton
+                sx={{
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  width: '100%',
+                }}
+                onClick={() => navigate(`/services/drafAgree`)}
+              >
+                <ListItemText primary="Drafting and Agreement" />
+              </ListItemButton>
+              <ListItemButton
+                sx={{
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  width: '100%',
+                }}
+                onClick={() => navigate(`/services/appLiti`)}
+              >
+                <ListItemText primary="Appeals and Litigations" />
+              </ListItemButton>
+              <ListItemButton
+                sx={{
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  width: '100%',
+                }}
+                onClick={() => navigate(`/services/advi`)}
+              >
+                <ListItemText primary="Advisory Services" />
+              </ListItemButton>
+              <ListItemButton
+                sx={{
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  width: '100%',
+                }}
+                onClick={() => navigate(`/services/other`)}
+              >
+                <ListItemText primary="Other Services" />
+              </ListItemButton>
           </List>
         </Collapse>
         <Divider />
@@ -237,18 +290,9 @@ const Navbar = () => {
               }}
               onClick={() => navigate('/insights/News&Blogs')}
             >
-              <ListItemText primary='News&Blogs' />
+              <ListItemText primary='News' />
             </ListItemButton>
-            <ListItemButton
-              sx={{
-                justifyContent: 'center',
-                textAlign: 'center',
-                width: '100%',
-              }}
-              onClick={() => navigate('/insights/dog')}
-            >
-              <ListItemText primary='Dog' />
-            </ListItemButton>
+
           </List>
         </Collapse>
         <Divider />
@@ -406,19 +450,69 @@ const Navbar = () => {
           </button>
           {showServicesDropdown && (
             <div className='dropdownService'>
-              {servicesData &&
-          Array.isArray(servicesData) &&
-          servicesData.map((service) => (
                 <button
                   className='dropdown-item'
                     onClick={() => {
-                    navigate(`/services/${service.$id}`);
+                    navigate(`/services/taxservices`);
                     toggleServicesDropdown();
                  }}
                 >
-                  {service.ServiceHeadline}
+                  Tax Services
                 </button>
-              ))}
+                <button
+                  className='dropdown-item'
+                    onClick={() => {
+                    navigate(`/services/comforReg`);
+                    toggleServicesDropdown();
+                 }}
+                >
+                  Company Formation and Registration
+                </button>
+                <button
+                  className='dropdown-item'
+                    onClick={() => {
+                    navigate(`/services/auditServices`);
+                    toggleServicesDropdown();
+                 }}
+                >
+                  Audit Services
+                </button>
+                <button
+                  className='dropdown-item'
+                    onClick={() => {
+                    navigate(`/services/drafAgree`);
+                    toggleServicesDropdown();
+                 }}
+                >
+                  Drafting and Agreements
+                </button>
+                <button
+                  className='dropdown-item'
+                    onClick={() => {
+                    navigate(`/services/appLiti`);
+                    toggleServicesDropdown();
+                 }}
+                >
+                  Appeals and Litigations
+                </button>
+                <button
+                  className='dropdown-item'
+                    onClick={() => {
+                    navigate(`/services/advi`);
+                    toggleServicesDropdown();
+                 }}
+                >
+                  Advisory Services
+                </button>
+                <button
+                  className='dropdown-item'
+                    onClick={() => {
+                    navigate(`/services/other`);
+                    toggleServicesDropdown();
+                 }}
+                >
+                  Other Services
+                </button>
             </div>
           )}
           <button className='nav2-title' onClick={toggleInsightsDropdown}>
@@ -452,14 +546,14 @@ const Navbar = () => {
                 className='dropdown-item'
                 onClick={() =>{ navigate('/NewsBlogs'); toggleInsightsDropdown();}}
               >
-                News&Blogs
+                News
               </button>
-              {/* <button
+               <button
                 className='dropdown-item'
-                onClick={() => navigate('/insights/dog')}
+                onClick={() => navigate('/reviews')}
               >
-                Dog
-              </button> */}
+                Reviews
+              </button> 
             </div>
           )}
           <button className='nav2-title' onClick={() => navigate('/career')}>

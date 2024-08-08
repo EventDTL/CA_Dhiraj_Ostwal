@@ -22,8 +22,7 @@ function Home() {
     <Award/>
     <Eventgallary/>
     <FollowUs/>
-    <Followcard/>
-
+    {/* <Followcard/> */}
     </>
   )
 }

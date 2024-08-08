@@ -44,8 +44,6 @@ const Services = () => {
 
   const handleEditService = (e, service) => {
     e.stopPropagation()
-    console.log('Edit')
-    console.log(showForm)
     setEditMode(true)
     setSelectedService(service) // Store the selected service for editing
     setFormData({
@@ -53,7 +51,6 @@ const Services = () => {
       ServiceHeadline: service.ServiceHeadline,
     })
     setShowForm(true) // Open the form overlay
-    console.log(showForm)
   }
 
   const handleCancel = () => {
@@ -86,7 +83,6 @@ const Services = () => {
     e.preventDefault()
     try {
       if (editMode) {
-        console.log('Update Done')
         await updateService({
           ...selectedService,
           ServiceName: formData.ServiceName,

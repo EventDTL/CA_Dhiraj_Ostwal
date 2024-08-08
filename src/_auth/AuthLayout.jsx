@@ -4,7 +4,6 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 const AuthLayout = () => {
   const isAuthenticated = useUserContext()
-  console.log(`User Authentication : ${isAuthenticated.isAuthenticated}`)
 
   return (
     <div className='w-full md:flex'>

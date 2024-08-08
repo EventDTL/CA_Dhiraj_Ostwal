@@ -11,7 +11,6 @@ export async function signInAccount(user) {
     )
     return session
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -21,7 +20,6 @@ export async function getAccount() {
     const currentAccount = await account.get()
     return currentAccount
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -45,7 +43,6 @@ export async function createAdminAccount(user) {
 
     return newUser
   } catch (error) {
-    console.log(error)
     return error
   }
 }
@@ -54,18 +51,14 @@ export async function createAdminAccount(user) {
 export async function saveAdminToDB(user) {
   try {
     const uniqueID = ID.unique()
-    console.log('Unique ID ' + uniqueID)
     const newUser = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.adminCollectionId,
       uniqueID,
       user
     )
-    console.log(newUser)
-
     return newUser
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -80,13 +73,11 @@ export async function getCurrentUser() {
       appwriteConfig.adminCollectionId,
       [Query.equal('AccountId', currentAccount.$id)]
     )
-    console.log(currentUser.documents[0])
 
     if (!currentUser) throw Error
 
     return currentUser.documents[0]
   } catch (error) {
-    console.log(error)
     return null
   }
 }
@@ -97,7 +88,6 @@ export async function signOutAccount() {
     const session = await account.deleteSession('current')
     return session
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -157,7 +147,6 @@ export async function uploadFile(file) {
 
     return uploadedFile
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -198,7 +187,6 @@ export async function deleteFile(fileId) {
     await storage.deleteFile(appwriteConfig.storageId, fileId)
     return { status: 'ok' }
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -209,8 +197,7 @@ export async function downloadResumeFiles(imageId) {
     if (!result) throw Error
     return result
   } catch (error) {
-    console.log(error)
-  }
+}
 }
 
 // All RESUME
@@ -223,7 +210,6 @@ export async function getAllResumeFiles() {
     if (!allresume) throw Error
     return allresume
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -263,11 +249,9 @@ export async function getAllContactUs() {
       appwriteConfig.contactCollectionId
     )
 
-    console.log(allContact)
     if (!allContact) throw Error
     return allContact
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -289,7 +273,6 @@ export async function saveMeeting(meeting) {
     if (!savemeeting) {
       throw new Error('Failed to Book Meeting')
     }
-    console.log(savemeeting)
     return savemeeting
   } catch (error) {
     console.error(error)
@@ -305,11 +288,9 @@ export async function getAllMeetings() {
       appwriteConfig.meetingsCollectionId
     )
 
-    console.log(allMeeting)
     if (!allMeeting) throw Error
     return allMeeting
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -323,18 +304,15 @@ export async function getAllEmployee() {
       appwriteConfig.employeeCollectionId
     )
 
-    console.log(allEmployee)
     if (!allEmployee) throw Error
     return allEmployee.documents
   } catch (error) {
-    console.log(error)
   }
 }
 
 // Save Employee 
 export async function saveEmployee(employee) {
   try {
-    console.log(employee)
 
     if (!employee.image) {
       throw new Error('No file provided')
@@ -370,7 +348,6 @@ export async function saveEmployee(employee) {
     if (!saveEmployee) {
       throw new Error('Failed to Book Meeting')
     }
-    console.log(saveEmployee)
     return saveEmployee
   } catch (error) {
     console.error(error)
@@ -380,7 +357,6 @@ export async function saveEmployee(employee) {
 
 // Update Employee
 export async function updateEmployee(employee) {
-  console.log(employee);
   try {
     let fileUrl = employee.deleteId.imageUrl;
     let uploadedFileId = employee.deleteId.imageId;
@@ -434,7 +410,6 @@ export async function updateEmployee(employee) {
 
 // Delete Employee
 export async function deleteEmployee(EmployeeId) {
-  console.log(EmployeeId);
   if (!EmployeeId) return;
 
   try {
@@ -450,7 +425,6 @@ export async function deleteEmployee(EmployeeId) {
 
     return { status: 'Ok' };
   } catch (error) {
-    console.log(error);
   }
 }
 
@@ -461,11 +435,9 @@ export async function getAllBanner() {
       appwriteConfig.databaseId,
       appwriteConfig.bannerCollectionId
     )
-    console.log(allBanner)
     if (!allBanner) throw Error
     return allBanner.documents
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -473,7 +445,6 @@ export async function getAllBanner() {
 //Save Banner
 export async function saveBanner(banner) {
   try {
-    console.log(banner)
 
     if (!banner.image) {
       throw new Error('No file provided')
@@ -501,7 +472,6 @@ export async function saveBanner(banner) {
     if (!saveBanner) {
       throw new Error('Failed to Book Meeting')
     }
-    console.log(saveBanner)
     return saveBanner
   } catch (error) {
     console.error(error)
@@ -511,7 +481,6 @@ export async function saveBanner(banner) {
 
 // Update Banner
 export async function updateBanner(updateBanner) {
-  console.log(updateBanner);
   try {
     let fileUrl = updateBanner.imageUrl;
     let uploadedFileId = updateBanner.imageId;
@@ -558,7 +527,6 @@ export async function updateBanner(updateBanner) {
 
 // Delete Banner
 export async function deleteBanner(BannerId, imageId) {
-  console.log(BannerId + ' ' + imageId);
   
   if (!BannerId || !imageId) return;
 
@@ -575,7 +543,6 @@ export async function deleteBanner(BannerId, imageId) {
 
     return { status: 'Ok' };
   } catch (error) {
-    console.log(error);
   }
 }
 
@@ -587,18 +554,15 @@ export async function getAllGallery() {
       appwriteConfig.databaseId,
       appwriteConfig.galleryCollectionId
     )
-    console.log(allGallery)
     if (!allGallery) throw Error
     return allGallery
   } catch (error) {
-    console.log(error)
   }
 }
 
 // Save Gallery Photo
 export async function saveGalleryPhoto(gallery) {
   try {
-    console.log(gallery)
     if (!gallery.image) {
       throw new Error('No file provided')
     }
@@ -623,7 +587,6 @@ export async function saveGalleryPhoto(gallery) {
     if (!savePhoto) {
       throw new Error('Failed to Book Meeting')
     }
-    console.log(savePhoto)
     return savePhoto
   } catch (error) {
     console.error(error)
@@ -646,7 +609,6 @@ export async function saveService(service) {
     if (!saveService) {
       throw new Error('Failed to Save Service')
     }
-    console.log(saveService)
     return saveService
   } catch (error) {
     console.error(error)
@@ -656,7 +618,6 @@ export async function saveService(service) {
 
 // Update Service
 export async function updateService(updateService) {
-  console.log(updateService)
   try {
     const saveupdateService = await databases.updateDocument(
       appwriteConfig.databaseId,
@@ -670,7 +631,6 @@ export async function updateService(updateService) {
     if (!saveupdateService) {
       throw new Error('Failed to Update Service')
     }
-    console.log(saveupdateService)
     return saveupdateService
   } catch (error) {
     console.error(error)
@@ -689,20 +649,17 @@ export async function getAllServices() {
     if (!allServices) throw Error
     return allServices.documents
   } catch (error) {
-    console.log(error)
   }
 }
 
 // SubServiceById
 export async function getSubServicesById(serviceId) {
-  console.log(serviceId)
   try {
     const response = await databases.getDocument(
       appwriteConfig.databaseId,
       appwriteConfig.servicesCollectionId,
       serviceId
     )
-    console.log(response)
 
     return response
   } catch (error) {
@@ -727,7 +684,6 @@ export async function saveSubService(subservice) {
     if (!saveSubService) {
       throw new Error('Failed to Save SubService')
     }
-    console.log(saveSubService)
     return saveSubService
   } catch (error) {
     console.error(error)
@@ -737,7 +693,6 @@ export async function saveSubService(subservice) {
 
 // Update Service
 export async function updateSubService(updateSubService) {
-  console.log(updateService)
   try {
     const saveupdateSubService = await databases.updateDocument(
       appwriteConfig.databaseId,
@@ -751,7 +706,6 @@ export async function updateSubService(updateSubService) {
     if (!saveupdateSubService) {
       throw new Error('Failed to Update SubService')
     }
-    console.log(saveupdateSubService)
     return saveupdateSubService
   } catch (error) {
     console.error(error)
@@ -778,7 +732,6 @@ export async function getAdminProfileById() {
 
 // Update Admin Profile
 export async function updateAdminProfile(officeInfoEdited) {
-  console.log(officeInfoEdited);
   
   try {
     const updateAdminProfile = await databases.updateDocument(
@@ -800,7 +753,6 @@ export async function updateAdminProfile(officeInfoEdited) {
     if (!updateAdminProfile) {
       throw new Error('Failed to Update Admin Profile')
     }
-    console.log(updateAdminProfile)
     return updateAdminProfile
   } catch (error) {
     console.error(error)
@@ -810,7 +762,6 @@ export async function updateAdminProfile(officeInfoEdited) {
 
 // Update Admin Profile Photo
 export async function updateAdminProfilePhoto(adminPhoto) {
-  console.log(adminPhoto);
 
    if (!adminPhoto.image) {
       throw new Error('No file provided')
@@ -867,7 +818,6 @@ export async function getYoutubeLinks() {
     if (!links) throw Error
     return links
   } catch (error) {
-    console.log(error)
   }
 }
 
@@ -888,7 +838,6 @@ export async function saveYoutubeLink(link) {
     if (!saveLink) {
       throw new Error('Failed to Save Youtube Url')
     }
-    console.log(saveLink)
     return saveLink
   } catch (error) {
     console.error(error)
@@ -898,9 +847,7 @@ export async function saveYoutubeLink(link) {
 
 // Update Youtube Url
 export async function updateYoutubeLink(link) {
-  console.log('Update Start');
-  console.log(link);
-  
+
   
   try {
     const updateLink = await databases.updateDocument(
@@ -916,7 +863,6 @@ export async function updateYoutubeLink(link) {
     if (!updateLink) {
       throw new Error('Failed to Update Youtube Url')
     }
-    console.log(updateLink)
     return updateLink
   } catch (error) {
     console.error(error)
@@ -935,7 +881,6 @@ export async function deleteYoutubeUrl(urlId) {
     if (!statusCode) throw Error
     return { status: 'Ok' }
   } catch (error) {
-    console.log(error)
   }
 }
 

@@ -1,7 +1,7 @@
 // ServiceData.js
 const serviceData = {
   audit: {
-    headline: 'Audit and Assurance Services',
+    headline: 'Tax Services',
     content: [
       {
         title: 'Statutory Audit',

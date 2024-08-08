@@ -1,0 +1,143 @@
+/* IncomeTax.css */
+
+body {
+    background-color: #f5f5f5;
+    line-height: 1.6;
+    font-family: SourceSansPro, "Source Sans Pro-fallback", sans-serif;
+  }
+  
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+  }
+  
+  .title {
+    margin: 20px 0 40px;
+    text-align: center;
+    font-family: var(--mainfont);
+  }
+  
+  .title h1 {
+    font-size: 2.5em;
+    color: #FF7F3E;
+    font-weight: 700;
+  }
+  
+  .body {
+    width: 90%;
+    padding: 3rem 0rem;
+    border-radius: 10px;
+    background-color: #ffffff;
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .links {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  
+  .links a {
+    text-decoration: none;
+    color: #FF7F3E;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+  
+  .links a:hover {
+    color: #FF7F3E;
+  }
+  
+  .blog p {
+    margin-bottom: 20px;
+    font-size: 15px;
+  }
+
+  .blog{
+    max-width: 60rem ;
+  }
+  
+  .blog h1 {
+    font-size: 2rem;
+    color: #FF7F3E;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #FF7F3E;
+    padding-bottom: 10px;
+    font-family: var(--mainfont);
+  }
+  
+  .blog h3 {
+    font-size: 1.3rem;
+    color: #333;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+  
+  .unordered1 ul, .unordered2 ul, .unordered3 ul, .unordered4 ul, .unordered5 ul,
+  .ordered1 ol {
+    padding-left: 30px;
+    margin-bottom: 20px;
+    font-family: SourceSansPro, "Source Sans Pro-fallback", sans-serif
+  }
+  
+  .unordered1 ul li, .unordered2 ul li, .unordered3 ul li, .unordered4 ul li, .unordered5 ul li,
+  .ordered1 ol li {
+    margin-bottom: 10px;
+    position: relative;
+    font-family: SourceSansPro, "Source Sans Pro-fallback", sans-serif
+  }
+  
+  .unordered1 ul li::before, .unordered2 ul li::before, .unordered3 ul li::before,
+  .unordered4 ul li::before, .unordered5 ul li::before {
+    content: '•';
+    color: #FF7F3E;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+  }
+  
+  .blog img {
+    max-width: 100%;
+    margin: 30px 0;
+    border-radius: 10px;
+  }
+  
+  .blog span {
+    color:#FF7F3E;
+  }
+  
+  @media (max-width: 768px) {
+    .body {
+      width: 100%;
+      padding: 1rem;
+  }
+    
+    .links{
+      display: none;
+    }
+
+    .title h1 {
+      font-size: 2em;
+    }
+    
+    .blog h1 {
+      font-size: 1.8em;
+    }
+    
+    .blog h3 {
+      font-size: 1.2em;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .body{
+      display: flex;
+      flex-direction: column-reverse;
+    }
+  }

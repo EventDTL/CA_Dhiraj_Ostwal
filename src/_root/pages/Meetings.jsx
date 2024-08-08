@@ -28,7 +28,6 @@ function Meetings() {
     }
   }, [meetingData])
 
-  console.log(meetings)
 
   // Function to format date and time into 12-hour format
   const formatDateTime = (dateTimeStr) => {

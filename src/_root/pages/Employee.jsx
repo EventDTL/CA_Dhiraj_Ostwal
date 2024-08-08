@@ -14,7 +14,6 @@ const Employee = () => {
     refetch,
   } = useGetAllEmployee();
 
-  console.log(employeeData);
 
   const [employees, setEmployees] = useState([]);
   const [formData, setFormData] = useState({
@@ -100,7 +99,6 @@ const Employee = () => {
       }
 
       if (editingEmployeeId) {
-        console.log(formData);
         await updateEmployee({...formData,deleteId});
 
       } else {

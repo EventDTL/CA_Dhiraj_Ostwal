@@ -59,10 +59,9 @@ const Footer = () => {
           <div className="footer-item office">
             <h4 className="ca-heading text-uppercase">Office</h4>
             <ul className="ca-list ca-office">
-              <li><i className="fa fa-map"></i>{adminProfile?.Address}</li>
-              <li><i className="fa fa-envelope"></i><Link to={`mailto:${adminProfile?.Email}`}>{adminProfile?.Email}</Link></li>
-              <li><i className="fa fa-phone"></i><Link to={`https://wa.me/${adminProfile?.Phone}`}>{adminProfile?.Phone}</Link></li>
-              <li><i className="fa fa-mobile"></i>{adminProfile?.WhatsApp}</li>
+              <li>{adminProfile?.Address}</li>
+              <li><Link to={`mailto:${adminProfile?.Email}`}>{adminProfile?.Email}</Link></li>
+              <li>{adminProfile?.WhatsApp}</li>
             </ul>
           </div>
           <div className="footer-item latest-works">

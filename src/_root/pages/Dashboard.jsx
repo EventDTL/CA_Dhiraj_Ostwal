@@ -66,7 +66,6 @@ function Dashboard() {
         })
       }
 
-      console.log(userData.meetings);
       // Check userData.meetings
       if (userData.meetings && userData.meetings.length > 0) {
         userData.meetings.forEach((meeting) => {

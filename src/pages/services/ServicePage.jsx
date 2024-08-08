@@ -9,7 +9,6 @@ import { useGetSubServices } from '../../lib/react-query/queries'
 function ServicePage() {
   const { serviceName } = useParams()
 
-  console.log(serviceName);
   const {
     data: subServicesData,
     isLoading: isLoadingSubService,
@@ -17,7 +16,6 @@ function ServicePage() {
     refetch,
   } = useGetSubServices(serviceName)
 
-  console.log(subServicesData);
 
   const service = ServiceData[serviceName]
   const [isModalOpen, setModalOpen] = useState(false)
